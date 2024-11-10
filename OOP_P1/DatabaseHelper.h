@@ -47,7 +47,7 @@ public:
         }
     }
 
-    static bool AddUser(String^ username, String^ password)
+    static bool AddUser(String^ username, String^ email, String^ password)
     {
         String^ connectionString = "Data Source=localhost\\sqlexpress;Integrated Security=True"; // Adjust as necessary
         SqlConnection^ connection = nullptr;
@@ -57,9 +57,10 @@ public:
             connection = gcnew SqlConnection(connectionString);
             connection->Open();
             String^ hashedPassword = HashPassword(password); // Hash the password
-            String^ query = "INSERT INTO Users (Username, Password) VALUES (@username, @password)";
+            String^ query = "INSERT INTO Users (Username, Email, Password) VALUES (@username, @email, @password)";
             SqlCommand^ command = gcnew SqlCommand(query, connection);
             command->Parameters->AddWithValue("@username", username);
+            command->Parameters->AddWithValue("@email", email);
             command->Parameters->AddWithValue("@password", hashedPassword);
 
             int result = command->ExecuteNonQuery(); // Execute the insert command
@@ -83,6 +84,7 @@ public:
             }
         }
     }
+
 
 private:
     // Method to hash a password using SHA256
