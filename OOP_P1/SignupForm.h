@@ -165,15 +165,16 @@ private: System::Void SignupForm_Load(System::Object^ sender, System::EventArgs^
 private: System::Void btsignup_Click(System::Object^ sender, System::EventArgs^ e) {
 	String^ username = this->tbname->Text->Trim();
 	String^ password = this->tbpwd->Text->Trim();
+	String^ email = this->tbmail->Text->Trim();
 
-	if (String::IsNullOrWhiteSpace(username) || String::IsNullOrWhiteSpace(password))
+	if (String::IsNullOrWhiteSpace(username) || String::IsNullOrWhiteSpace(email) || String::IsNullOrWhiteSpace(password))
 	{
-		MessageBox::Show("Please enter both username and password.");
+		MessageBox::Show("Please enter username, email, and password.");
 		return;
 	}
 
-	// Assuming DatabaseHelper::AddUser is defined elsewhere in your project
-	if (DatabaseHelper::AddUser(username, password)) {
+	// Assuming DatabaseHelper::AddUser has been updated to include the email parameter
+	if (DatabaseHelper::AddUser(username, email, password)) {
 		MessageBox::Show("Sign up successful!");
 		this->Close();
 	}
