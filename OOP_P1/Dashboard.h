@@ -1,5 +1,5 @@
 #pragma once
-
+#include"IncomeExpensesForm.h"
 namespace OOPP1 {
 
 	using namespace System;
@@ -92,7 +92,7 @@ namespace OOPP1 {
 			this->label1->ImageAlign = System::Drawing::ContentAlignment::TopCenter;
 			this->label1->Location = System::Drawing::Point(457, 57);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(561, 44);
+			this->label1->Size = System::Drawing::Size(547, 43);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Welcome to SmartPlanner Dashboard";
 			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -107,6 +107,7 @@ namespace OOPP1 {
 			this->d1->Size = System::Drawing::Size(323, 181);
 			this->d1->TabIndex = 1;
 			this->d1->UseVisualStyleBackColor = false;
+			this->d1->Click += gcnew System::EventHandler(this, &Dashboard::d1_Click);
 			// 
 			// d3
 			// 
@@ -247,5 +248,11 @@ namespace OOPP1 {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 
+private: System::Void d1_Click(System::Object^ sender, System::EventArgs^ e) {
+	IncomeExpensesForm^ incomeexpensesForm = gcnew IncomeExpensesForm();
+	this->Hide();
+	incomeexpensesForm->ShowDialog();
+	this->Show();
+}
 };
 }
