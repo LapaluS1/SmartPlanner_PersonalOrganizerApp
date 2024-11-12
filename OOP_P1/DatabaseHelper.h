@@ -85,6 +85,38 @@ public:
         }
     }
 
+    bool addIncomeExpense(String^ incomeExpense, String^ date, String^ category, String^ source, String^ description, Decimal amount)
+    {
+        SqlConnection^ conn = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+        try
+        {
+            conn->Open();
+
+            String^ query = "INSERT INTO IncomeExpenses (IncomeExpense, Date, Category, Source, Description, Amount) VALUES (@incomeExpense, @date, @category, @source, @description, @amount)";
+            SqlCommand^ cmd = gcnew SqlCommand(query, conn);
+            cmd->Parameters->AddWithValue("@incomeExpense", incomeExpense);
+            cmd->Parameters->AddWithValue("@date", date);
+            cmd->Parameters->AddWithValue("@category", category);
+            cmd->Parameters->AddWithValue("@source", source);
+            cmd->Parameters->AddWithValue("@description", description);
+            cmd->Parameters->AddWithValue("@amount", amount);
+
+            int rowsAffected = cmd->ExecuteNonQuery();
+
+            return rowsAffected > 0;  // Return true if the record was added successfully
+        }
+        catch (Exception^ e)
+        {
+            MessageBox::Show("Error: " + e->Message);
+            return false;  // Return false if there was an error
+        }
+        finally
+        {
+            conn->Close();
+        }
+    }
+
+
 
 private:
     // Method to hash a password using SHA256
