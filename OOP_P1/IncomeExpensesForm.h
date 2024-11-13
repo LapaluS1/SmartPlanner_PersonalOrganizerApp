@@ -186,6 +186,7 @@ namespace OOPP1 {
 			// amount
 			// 
 			this->amount->Location = System::Drawing::Point(352, 382);
+			this->amount->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100000000, 0, 0, 0 });
 			this->amount->Name = L"amount";
 			this->amount->Size = System::Drawing::Size(120, 22);
 			this->amount->TabIndex = 11;
@@ -255,7 +256,7 @@ private: System::Void Add_Click(System::Object^ sender, System::EventArgs^ e) {
 	DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
 
 	// Check if all necessary fields are filled
-	if (incomeExpense == "" || selectedCategory == "" || selectedSource == "" || amountValue <= 0) {
+	if (incomeExpense == "" || selectedCategory == "" ||  amountValue <= 0) {
 		MessageBox::Show("Please fill in all fields correctly.");
 		return;
 	}

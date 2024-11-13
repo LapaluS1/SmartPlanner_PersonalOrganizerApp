@@ -1,5 +1,8 @@
 #pragma once
 #include"IncomeExpensesForm.h"
+#include"FinancialReportForm.h"
+#include"AcadamicShedularForm.h"
+#include"BudgetingForm.h"
 namespace OOPP1 {
 
 	using namespace System;
@@ -119,6 +122,7 @@ namespace OOPP1 {
 			this->d3->Size = System::Drawing::Size(323, 181);
 			this->d3->TabIndex = 2;
 			this->d3->UseVisualStyleBackColor = false;
+			this->d3->Click += gcnew System::EventHandler(this, &Dashboard::d3_Click);
 			// 
 			// d2
 			// 
@@ -130,6 +134,7 @@ namespace OOPP1 {
 			this->d2->Size = System::Drawing::Size(323, 181);
 			this->d2->TabIndex = 3;
 			this->d2->UseVisualStyleBackColor = false;
+			this->d2->Click += gcnew System::EventHandler(this, &Dashboard::d2_Click);
 			// 
 			// d4
 			// 
@@ -141,6 +146,7 @@ namespace OOPP1 {
 			this->d4->Size = System::Drawing::Size(323, 181);
 			this->d4->TabIndex = 4;
 			this->d4->UseVisualStyleBackColor = false;
+			this->d4->Click += gcnew System::EventHandler(this, &Dashboard::d4_Click);
 			// 
 			// pictureBox1
 			// 
@@ -252,6 +258,24 @@ private: System::Void d1_Click(System::Object^ sender, System::EventArgs^ e) {
 	IncomeExpensesForm^ incomeexpensesForm = gcnew IncomeExpensesForm();
 	this->Hide();
 	incomeexpensesForm->ShowDialog();
+	this->Show();
+}
+private: System::Void d2_Click(System::Object^ sender, System::EventArgs^ e) {
+	BudgetingForm^ budgetingForm = gcnew BudgetingForm();
+	this->Hide();
+	budgetingForm->ShowDialog();
+	this->Show();
+}
+private: System::Void d3_Click(System::Object^ sender, System::EventArgs^ e) {
+	FinancialReportForm^ financialReportForm = gcnew FinancialReportForm();
+	this->Hide();
+	financialReportForm->ShowDialog();
+	this->Show();
+}
+private: System::Void d4_Click(System::Object^ sender, System::EventArgs^ e) {
+	AcadamicShedularForm^ acadamicShedularForm = gcnew AcadamicShedularForm();
+	this->Hide();
+	acadamicShedularForm->ShowDialog();
 	this->Show();
 }
 };

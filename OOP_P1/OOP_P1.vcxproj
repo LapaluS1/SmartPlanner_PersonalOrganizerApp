@@ -120,17 +120,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AcadamicShedularForm.cpp" />
+    <ClCompile Include="BudgetingForm.cpp" />
     <ClCompile Include="Dashboard.cpp" />
+    <ClCompile Include="FinancialReportForm.cpp" />
     <ClCompile Include="IncomeExpensesForm.cpp" />
     <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SignupForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AcadamicShedularForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="BudgetingForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Dashboard.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="DatabaseHelper.h" />
+    <ClInclude Include="FinancialReportForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="IncomeExpensesForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -142,6 +154,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BudgetingForm.resx">
+      <DependentUpon>BudgetingForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.h</DependentUpon>
     </EmbeddedResource>
