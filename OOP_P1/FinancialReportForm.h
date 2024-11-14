@@ -108,7 +108,7 @@ namespace OOPP1 {
 			// lblTotalIncome
 			// 
 			this->lblTotalIncome->AutoSize = true;
-			this->lblTotalIncome->Location = System::Drawing::Point(163, 35);
+			this->lblTotalIncome->Location = System::Drawing::Point(123, 35);
 			this->lblTotalIncome->Name = L"lblTotalIncome";
 			this->lblTotalIncome->Size = System::Drawing::Size(0, 16);
 			this->lblTotalIncome->TabIndex = 6;
@@ -116,7 +116,7 @@ namespace OOPP1 {
 			// lblTotalExpenses
 			// 
 			this->lblTotalExpenses->AutoSize = true;
-			this->lblTotalExpenses->Location = System::Drawing::Point(163, 81);
+			this->lblTotalExpenses->Location = System::Drawing::Point(123, 81);
 			this->lblTotalExpenses->Name = L"lblTotalExpenses";
 			this->lblTotalExpenses->Size = System::Drawing::Size(0, 16);
 			this->lblTotalExpenses->TabIndex = 7;
@@ -124,7 +124,7 @@ namespace OOPP1 {
 			// lblSavings
 			// 
 			this->lblSavings->AutoSize = true;
-			this->lblSavings->Location = System::Drawing::Point(163, 136);
+			this->lblSavings->Location = System::Drawing::Point(123, 136);
 			this->lblSavings->Name = L"lblSavings";
 			this->lblSavings->Size = System::Drawing::Size(0, 16);
 			this->lblSavings->TabIndex = 8;
@@ -191,17 +191,48 @@ namespace OOPP1 {
 			Decimal savings = Decimal::Subtract(totalIncome, totalExpenses);
 
 			// Display the results
-			lblTotalIncome->Text = "Total Income: " + totalIncome.ToString("C");
-			lblTotalExpenses->Text = "Total Expenses: " + totalExpenses.ToString("C");
-			lblSavings->Text = "Savings: " + savings.ToString("C");
+			lblTotalIncome->Text = "Total Income: " + totalIncome.ToString("Rs .");
+			lblTotalExpenses->Text = "Total Expenses: " + totalExpenses.ToString("Rs .");
+			// Check if savings are negative, and update the label accordingly
+			if (savings < 0) {
+				lblSavings->Text = "Deficit: " + savings.ToString("Rs .");
+			}
+			else {
+				lblSavings->Text = "Savings: " + savings.ToString("Rs .");
+			}
 		}
-
 		
+
+		void LoadCategoryBudgetData() {
+			// Retrieve the category budget data from the database
+			DataTable^ categoryBudgetData = dbHelper->GetCategoryBudgetData();
+
+			// Clear the existing series in the chart
+			chartExpenses->Series["Spent"]->Points->Clear();
+			chartExpenses->Series["Remaining"]->Points->Clear();
+
+			// Iterate over the rows of the retrieved data
+			for (int i = 0; i < categoryBudgetData->Rows->Count; i++) {
+				DataRow^ row = categoryBudgetData->Rows[i];
+				String^ category = row["Category"]->ToString();
+				Decimal budgetLimit = Convert::ToDecimal(row["BudgetLimit"]);
+				Decimal spentAmount = Convert::ToDecimal(row["SpentAmount"]);
+				Decimal remainingAmount = Decimal::Subtract(spentAmount, budgetLimit);
+
+
+				// Add the spent amount to the "Spent" series
+				chartExpenses->Series["Spent"]->Points->AddXY(category, spentAmount);
+
+				// Add the remaining amount to the "Remaining" series
+				chartExpenses->Series["Remaining"]->Points->AddXY(category, remainingAmount);
+			}
+		}
 			
 
 
 	private: System::Void btnGenerateReport_Click(System::Object^ sender, System::EventArgs^ e) {
 		DisplayFinancialReport();
+		LoadCategoryBudgetData();
 	}
 };
 }

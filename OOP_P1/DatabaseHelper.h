@@ -277,6 +277,20 @@ namespace OOPP1 {
                     connection->Close();
                 }
             }
+            DataTable^ GetCategoryBudgetData() {
+                DataTable^ dt = gcnew DataTable();
+                try {
+                    // SQL query to retrieve category, budget limit, and spent amount
+                    String^ query = "SELECT Category, BudgetLimit, SpentAmount FROM CategoryBudgets";
+                    SqlDataAdapter^ dataAdapter = gcnew SqlDataAdapter(query, connection);
+                    dataAdapter->Fill(dt);
+                }
+                catch (Exception^ ex) {
+                    MessageBox::Show("Error: " + ex->Message);
+                }
+                return dt;
+            }
+
          
     private:
         // Method to hash a password using SHA256
