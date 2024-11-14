@@ -22,6 +22,7 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			dbHelper = gcnew DatabaseHelper();
+			this->StartPosition = FormStartPosition::CenterScreen;
 		}
 
 	protected:
@@ -75,9 +76,9 @@ namespace OOPP1 {
 			// category
 			// 
 			this->category->FormattingEnabled = true;
-			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
+			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
 				L"food", L"entertainment", L"traveling", L"clothing",
-					L"educationEquipment", L"universityFees"
+					L"educationEquipment", L"universityFees", L"others"
 			});
 			this->category->Location = System::Drawing::Point(440, 73);
 			this->category->Name = L"category";

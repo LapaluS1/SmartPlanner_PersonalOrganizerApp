@@ -21,6 +21,7 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			this->StartPosition = FormStartPosition::CenterScreen;
+			dbHelper = gcnew DatabaseHelper();
 		}
 
 	protected:
@@ -34,6 +35,8 @@ namespace OOPP1 {
 				delete components;
 			}
 		}
+	private:
+		DatabaseHelper^ dbHelper;
 	private: System::Windows::Forms::ComboBox^ selectIE;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
@@ -49,6 +52,7 @@ namespace OOPP1 {
 
 	private: System::Windows::Forms::Button^ back;
 	private: System::Windows::Forms::Button^ Add;
+	private: System::Windows::Forms::Button^ reset;
 	protected:
 
 	private:
@@ -79,6 +83,7 @@ namespace OOPP1 {
 			this->amount = (gcnew System::Windows::Forms::NumericUpDown());
 			this->back = (gcnew System::Windows::Forms::Button());
 			this->Add = (gcnew System::Windows::Forms::Button());
+			this->reset = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->amount))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -119,9 +124,9 @@ namespace OOPP1 {
 			// category
 			// 
 			this->category->FormattingEnabled = true;
-			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
+			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
 				L"food", L"entertainment", L"traveling", L"clothing",
-					L"educationEquipment", L"universityFees"
+					L"educationEquipment", L"universityFees", L"others"
 			});
 			this->category->Location = System::Drawing::Point(352, 203);
 			this->category->Name = L"category";
@@ -211,11 +216,22 @@ namespace OOPP1 {
 			this->Add->UseVisualStyleBackColor = true;
 			this->Add->Click += gcnew System::EventHandler(this, &IncomeExpensesForm::Add_Click);
 			// 
+			// reset
+			// 
+			this->reset->Location = System::Drawing::Point(519, 446);
+			this->reset->Name = L"reset";
+			this->reset->Size = System::Drawing::Size(133, 23);
+			this->reset->TabIndex = 15;
+			this->reset->Text = L"NewMonth";
+			this->reset->UseVisualStyleBackColor = true;
+			this->reset->Click += gcnew System::EventHandler(this, &IncomeExpensesForm::reset_Click);
+			// 
 			// IncomeExpensesForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->reset);
 			this->Controls->Add(this->Add);
 			this->Controls->Add(this->back);
 			this->Controls->Add(this->amount);
@@ -239,6 +255,20 @@ namespace OOPP1 {
 
 		}
 #pragma endregion
+		void ResetDatabase() {
+			try {
+				// Call the method to delete all data from the relevant tables in the database
+				dbHelper->DeleteAllData();  // No need to check for return value, as DeleteAllData already handles this
+
+				// The success message is shown in DeleteAllData, so we don't need to display it here.
+			}
+			catch (Exception^ ex) {
+				// Handle any unexpected exceptions
+				MessageBox::Show("An unexpected error occurred: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
+
+
 	
 private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Close();
@@ -256,9 +286,14 @@ private: System::Void Add_Click(System::Object^ sender, System::EventArgs^ e) {
 	DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
 
 	// Check if all necessary fields are filled
-	if (incomeExpense == "" ||  amountValue <= 0) {
+	if (incomeExpense == "" || amountValue <= 0) {
 		MessageBox::Show("Please fill in all fields correctly.");
 		return;
+	}
+
+	// For "Income", allow category to be null
+	if (incomeExpense == "Income" && selectedCategory == "") {
+		selectedCategory = nullptr;  // Allow category to be null for income
 	}
 
 	// Convert the DateTime to a string for SQL insertion (if needed)
@@ -274,6 +309,9 @@ private: System::Void Add_Click(System::Object^ sender, System::EventArgs^ e) {
 	else {
 		MessageBox::Show("Failed to add Income/Expense.");
 	}
+}
+private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e) {
+	ResetDatabase();
 }
 };
 }

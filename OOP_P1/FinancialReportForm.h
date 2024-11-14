@@ -21,6 +21,7 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			dbHelper = gcnew DatabaseHelper();
+			this->StartPosition = FormStartPosition::CenterScreen;
 		}
 
 	protected:
@@ -217,8 +218,9 @@ namespace OOPP1 {
 				String^ category = row["Category"]->ToString();
 				Decimal budgetLimit = Convert::ToDecimal(row["BudgetLimit"]);
 				Decimal spentAmount = Convert::ToDecimal(row["SpentAmount"]);
-				Decimal remainingAmount = Decimal::Subtract(spentAmount, budgetLimit);
 
+				// Correct calculation for remaining amount (budgetLimit - spentAmount)
+				Decimal remainingAmount = Decimal::Subtract(budgetLimit, spentAmount);
 
 				// Add the spent amount to the "Spent" series
 				chartExpenses->Series["Spent"]->Points->AddXY(category, spentAmount);
@@ -227,6 +229,7 @@ namespace OOPP1 {
 				chartExpenses->Series["Remaining"]->Points->AddXY(category, remainingAmount);
 			}
 		}
+
 			
 
 

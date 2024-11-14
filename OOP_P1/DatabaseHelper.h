@@ -97,7 +97,15 @@ namespace OOPP1 {
                 command->Transaction = transaction;
                 command->Parameters->AddWithValue("@incomeExpense", incomeExpense);
                 command->Parameters->AddWithValue("@date", date);
-                command->Parameters->AddWithValue("@category", category);
+
+                // Check if category is empty or null, and insert DBNull for NULL category
+                if (category == nullptr || category->Trim()->Length == 0) {
+                    command->Parameters->AddWithValue("@category", DBNull::Value);  // Handle NULL category
+                }
+                else {
+                    command->Parameters->AddWithValue("@category", category);
+                }
+
                 command->Parameters->AddWithValue("@source", source);
                 command->Parameters->AddWithValue("@description", description);
                 command->Parameters->AddWithValue("@amount", amount);
@@ -105,57 +113,61 @@ namespace OOPP1 {
                 int rowsAffected = command->ExecuteNonQuery();
 
                 if (rowsAffected > 0) {
-                    // Check if the category exists in CategoryBudgets
-                    String^ checkCategoryQuery = "SELECT COUNT(*) FROM CategoryBudgets WHERE Category = @Category";
-                    SqlCommand^ checkCategoryCommand = gcnew SqlCommand(checkCategoryQuery, connection);
-                    checkCategoryCommand->Transaction = transaction;
-                    checkCategoryCommand->Parameters->AddWithValue("@Category", category);
+                    // Check if the category exists in CategoryBudgets (only if category is not null)
+                    if (category != nullptr && category->Trim()->Length > 0) {
+                        String^ checkCategoryQuery = "SELECT COUNT(*) FROM CategoryBudgets WHERE Category = @Category";
+                        SqlCommand^ checkCategoryCommand = gcnew SqlCommand(checkCategoryQuery, connection);
+                        checkCategoryCommand->Transaction = transaction;
+                        checkCategoryCommand->Parameters->AddWithValue("@Category", category);
 
-                    int categoryCount = (int)checkCategoryCommand->ExecuteScalar();
-                    if (categoryCount == 0) {
-                        MessageBox::Show("Category '" + category + "' does not exist in the CategoryBudgets table.");
-                        transaction->Rollback();
-                        return false;
-                    }
-
-                    // Inserted successfully, now update the spent amount in CategoryBudgets
-                    String^ updateQuery = "UPDATE CategoryBudgets SET SpentAmount = SpentAmount + @Amount WHERE Category = @Category";
-                    SqlCommand^ updateCommand = gcnew SqlCommand(updateQuery, connection);
-                    updateCommand->Transaction = transaction;
-                    updateCommand->Parameters->AddWithValue("@Amount", amount);
-                    updateCommand->Parameters->AddWithValue("@Category", category);
-
-                    // Debugging output
-                    MessageBox::Show("Updating category: " + category + " with amount: " + amount.ToString());
-
-                    int rowsUpdated = updateCommand->ExecuteNonQuery();
-                    if (rowsUpdated > 0) {
-                        // Check if the new spent amount exceeds the budget limit
-                        String^ checkQuery = "SELECT BudgetLimit, SpentAmount FROM CategoryBudgets WHERE Category = @Category";
-                        SqlCommand^ checkCommand = gcnew SqlCommand(checkQuery, connection);
-                        checkCommand->Transaction = transaction;
-                        checkCommand->Parameters->AddWithValue("@Category", category);
-
-                        SqlDataReader^ reader = checkCommand->ExecuteReader();
-                        if (reader->Read()) {
-                            Decimal budgetLimit = reader->GetDecimal(0); // BudgetLimit
-                            Decimal spentAmount = reader->GetDecimal(1); // SpentAmount
-
-                            // If the spent amount exceeds the budget limit, show an alert
-                            if (spentAmount > budgetLimit) {
-                                MessageBox::Show("Alert: The spent amount has exceeded the budget limit for the category '" + category + "'.");
-                            }
+                        int categoryCount = (int)checkCategoryCommand->ExecuteScalar();
+                        if (categoryCount == 0) {
+                            MessageBox::Show("Category '" + category + "' does not exist in the CategoryBudgets table.");
+                            transaction->Rollback();
+                            return false;
                         }
-                        reader->Close();
 
-                        // Commit the transaction
-                        transaction->Commit();
-                        return true; // Successfully added expense and updated spent amount
+                        // Inserted successfully, now update the spent amount in CategoryBudgets
+                        String^ updateQuery = "UPDATE CategoryBudgets SET SpentAmount = SpentAmount + @Amount WHERE Category = @Category";
+                        SqlCommand^ updateCommand = gcnew SqlCommand(updateQuery, connection);
+                        updateCommand->Transaction = transaction;
+                        updateCommand->Parameters->AddWithValue("@Amount", amount);
+                        updateCommand->Parameters->AddWithValue("@Category", category);
+
+                        int rowsUpdated = updateCommand->ExecuteNonQuery();
+                        if (rowsUpdated > 0) {
+                            // Check if the new spent amount exceeds the budget limit
+                            String^ checkQuery = "SELECT BudgetLimit, SpentAmount FROM CategoryBudgets WHERE Category = @Category";
+                            SqlCommand^ checkCommand = gcnew SqlCommand(checkQuery, connection);
+                            checkCommand->Transaction = transaction;
+                            checkCommand->Parameters->AddWithValue("@Category", category);
+
+                            SqlDataReader^ reader = checkCommand->ExecuteReader();
+                            if (reader->Read()) {
+                                Decimal budgetLimit = reader->GetDecimal(0); // BudgetLimit
+                                Decimal spentAmount = reader->GetDecimal(1); // SpentAmount
+
+                                // If the spent amount exceeds the budget limit, show an alert
+                                if (spentAmount > budgetLimit) {
+                                    MessageBox::Show("Alert: The spent amount has exceeded the budget limit for the category '" + category + "'.");
+                                }
+                            }
+                            reader->Close();
+
+                            // Commit the transaction
+                            transaction->Commit();
+                            return true; // Successfully added expense and updated spent amount
+                        }
+                        else {
+                            transaction->Rollback();
+                            MessageBox::Show("Failed to update the spent amount for category: " + category);
+                            return false;
+                        }
                     }
                     else {
-                        transaction->Rollback();
-                        MessageBox::Show("Failed to update the spent amount for category: " + category);
-                        return false;
+                        // If no category is provided (income case), commit the transaction
+                        transaction->Commit();
+                        return true; // Successfully added income without category
                     }
                 }
                 else {
@@ -290,6 +302,61 @@ namespace OOPP1 {
                 }
                 return dt;
             }
+         public: bool DeleteAllData() {
+             try {
+                 // Open the database connection
+                 if (connection->State != ConnectionState::Open) {
+                     connection->Open();
+                 }
+
+                 // Delete all records from the CategoryBudgets table
+                 String^ deleteCategoryBudgetsQuery = "DELETE FROM CategoryBudgets";
+                 ExecuteNonQuery(deleteCategoryBudgetsQuery, connection);
+
+                 // Reset the identity value for CategoryBudgets table
+                 String^ resetCategoryBudgetsIdentity = "DBCC CHECKIDENT ('CategoryBudgets', RESEED, 0)";
+                 ExecuteNonQuery(resetCategoryBudgetsIdentity, connection);
+
+                 // Delete all records from the IncomeExpenses table
+                 String^ deleteIncomeExpensesQuery = "DELETE FROM IncomeExpenses";
+                 ExecuteNonQuery(deleteIncomeExpensesQuery, connection);
+
+                 // Reset the identity value for IncomeExpenses table
+                 String^ resetIncomeExpensesIdentity = "DBCC CHECKIDENT ('IncomeExpenses', RESEED, 0)";
+                 ExecuteNonQuery(resetIncomeExpensesIdentity, connection);
+
+                 // Success message box after completing all operations
+                 MessageBox::Show("Database has been reset successfully!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+                 return true;  // Return true if all queries were successful
+             }
+             catch (Exception^ e) {
+                 // Log the error and return false if something goes wrong
+                 MessageBox::Show("Error: " + e->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+                 return false;
+             }
+             finally {
+                 // Ensure the connection is closed
+                 if (connection->State == ConnectionState::Open) {
+                     connection->Close();
+                 }
+             }
+         }
+
+private: void ExecuteNonQuery(String^ query, SqlConnection^ connection) {
+    try {
+        SqlCommand^ cmd = gcnew SqlCommand(query, connection);
+        cmd->ExecuteNonQuery();  // Execute the query (no results expected)
+    }
+    catch (Exception^ ex) {
+        // Handle exceptions here
+        MessageBox::Show("Error executing query: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+}
+
+
+
+
 
          
     private:
@@ -314,4 +381,5 @@ namespace OOPP1 {
         }
     };
 }
+
 
