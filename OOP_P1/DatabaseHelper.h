@@ -6,8 +6,11 @@ using namespace System::Windows::Forms; // For MessageBox
 using namespace System::Security::Cryptography; // For password hashing
 using namespace System::Text; // For encoding strings
 using namespace System::Data;
+using namespace System::Collections::Generic;
 
 namespace OOPP1 {
+
+
     public ref class DatabaseHelper {
     public:
         // Connection string to the database
@@ -102,15 +105,30 @@ namespace OOPP1 {
                 int rowsAffected = command->ExecuteNonQuery();
 
                 if (rowsAffected > 0) {
-                    // If the record is inserted, now update the spent amount in CategoryBudgets
+                    // Check if the category exists in CategoryBudgets
+                    String^ checkCategoryQuery = "SELECT COUNT(*) FROM CategoryBudgets WHERE Category = @Category";
+                    SqlCommand^ checkCategoryCommand = gcnew SqlCommand(checkCategoryQuery, connection);
+                    checkCategoryCommand->Transaction = transaction;
+                    checkCategoryCommand->Parameters->AddWithValue("@Category", category);
+
+                    int categoryCount = (int)checkCategoryCommand->ExecuteScalar();
+                    if (categoryCount == 0) {
+                        MessageBox::Show("Category '" + category + "' does not exist in the CategoryBudgets table.");
+                        transaction->Rollback();
+                        return false;
+                    }
+
+                    // Inserted successfully, now update the spent amount in CategoryBudgets
                     String^ updateQuery = "UPDATE CategoryBudgets SET SpentAmount = SpentAmount + @Amount WHERE Category = @Category";
                     SqlCommand^ updateCommand = gcnew SqlCommand(updateQuery, connection);
                     updateCommand->Transaction = transaction;
                     updateCommand->Parameters->AddWithValue("@Amount", amount);
                     updateCommand->Parameters->AddWithValue("@Category", category);
 
-                    int rowsUpdated = updateCommand->ExecuteNonQuery();
+                    // Debugging output
+                    MessageBox::Show("Updating category: " + category + " with amount: " + amount.ToString());
 
+                    int rowsUpdated = updateCommand->ExecuteNonQuery();
                     if (rowsUpdated > 0) {
                         // Check if the new spent amount exceeds the budget limit
                         String^ checkQuery = "SELECT BudgetLimit, SpentAmount FROM CategoryBudgets WHERE Category = @Category";
@@ -136,7 +154,7 @@ namespace OOPP1 {
                     }
                     else {
                         transaction->Rollback();
-                        MessageBox::Show("Failed to update the spent amount.");
+                        MessageBox::Show("Failed to update the spent amount for category: " + category);
                         return false;
                     }
                 }
@@ -158,6 +176,7 @@ namespace OOPP1 {
                 connection->Close();
             }
         }
+
 
         // Method to set or update a category budget
         bool setCategoryBudget(String^ category, Decimal budgetLimit) {
@@ -218,7 +237,47 @@ namespace OOPP1 {
             return dt;
         }
 
+        public:
+            // Method to get total income without month and year filter
+            Decimal getTotalIncome() {
+                // Query to get the sum of all incomes
+                String^ query = "SELECT SUM(Amount) FROM IncomeExpenses WHERE IncomeExpense = 'income'";
+                SqlCommand^ command = gcnew SqlCommand(query, connection);
 
+                try {
+                    connection->Open();
+                    Object^ result = command->ExecuteScalar();
+                    return result != DBNull::Value ? Convert::ToDecimal(result) : 0;
+                }
+                catch (Exception^ ex) {
+                    MessageBox::Show("Error retrieving income: " + ex->Message);
+                    return 0;
+                }
+                finally {
+                    connection->Close();
+                }
+            }
+
+            // Method to get total expenses without month and year filter
+            Decimal getTotalExpenses() {
+                // Query to get the sum of all expenses
+                String^ query = "SELECT SUM(Amount) FROM IncomeExpenses WHERE IncomeExpense = 'expenses'";
+                SqlCommand^ command = gcnew SqlCommand(query, connection);
+
+                try {
+                    connection->Open();
+                    Object^ result = command->ExecuteScalar();
+                    return result != DBNull::Value ? Convert::ToDecimal(result) : 0;
+                }
+                catch (Exception^ ex) {
+                    MessageBox::Show("Error retrieving expenses: " + ex->Message);
+                    return 0;
+                }
+                finally {
+                    connection->Close();
+                }
+            }
+         
     private:
         // Method to hash a password using SHA256
         static String^ HashPassword(String^ password) {
@@ -241,3 +300,4 @@ namespace OOPP1 {
         }
     };
 }
+

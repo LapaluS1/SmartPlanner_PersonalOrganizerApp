@@ -121,7 +121,7 @@ namespace OOPP1 {
 			this->category->FormattingEnabled = true;
 			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
 				L"food", L"entertainment", L"traveling", L"clothing",
-					L"education equipment", L"university fees"
+					L"educationEquipment", L"universityFees"
 			});
 			this->category->Location = System::Drawing::Point(352, 203);
 			this->category->Name = L"category";
@@ -256,7 +256,7 @@ private: System::Void Add_Click(System::Object^ sender, System::EventArgs^ e) {
 	DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
 
 	// Check if all necessary fields are filled
-	if (incomeExpense == "" || selectedCategory == "" ||  amountValue <= 0) {
+	if (incomeExpense == "" ||  amountValue <= 0) {
 		MessageBox::Show("Please fill in all fields correctly.");
 		return;
 	}

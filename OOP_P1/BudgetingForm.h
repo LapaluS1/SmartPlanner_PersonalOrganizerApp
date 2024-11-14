@@ -41,7 +41,8 @@ namespace OOPP1 {
 	protected:
 	private: System::Windows::Forms::NumericUpDown^ budgetamount;
 	private: System::Windows::Forms::Button^ setbudget;
-	private: System::Windows::Forms::Button^ reset;
+	private: System::Windows::Forms::Button^ back;
+
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ spentAmountLabel;
@@ -63,7 +64,7 @@ namespace OOPP1 {
 			this->category = (gcnew System::Windows::Forms::ComboBox());
 			this->budgetamount = (gcnew System::Windows::Forms::NumericUpDown());
 			this->setbudget = (gcnew System::Windows::Forms::Button());
-			this->reset = (gcnew System::Windows::Forms::Button());
+			this->back = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->spentAmountLabel = (gcnew System::Windows::Forms::Label());
@@ -76,7 +77,7 @@ namespace OOPP1 {
 			this->category->FormattingEnabled = true;
 			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
 				L"food", L"entertainment", L"traveling", L"clothing",
-					L"education equipment", L"university fee"
+					L"educationEquipment", L"universityFees"
 			});
 			this->category->Location = System::Drawing::Point(440, 73);
 			this->category->Name = L"category";
@@ -101,15 +102,15 @@ namespace OOPP1 {
 			this->setbudget->UseVisualStyleBackColor = true;
 			this->setbudget->Click += gcnew System::EventHandler(this, &BudgetingForm::setbudget_Click);
 			// 
-			// reset
+			// back
 			// 
-			this->reset->Location = System::Drawing::Point(848, 237);
-			this->reset->Name = L"reset";
-			this->reset->Size = System::Drawing::Size(75, 23);
-			this->reset->TabIndex = 3;
-			this->reset->Text = L"Reset";
-			this->reset->UseVisualStyleBackColor = true;
-			this->reset->Click += gcnew System::EventHandler(this, &BudgetingForm::reset_Click);
+			this->back->Location = System::Drawing::Point(848, 237);
+			this->back->Name = L"back";
+			this->back->Size = System::Drawing::Size(75, 23);
+			this->back->TabIndex = 3;
+			this->back->Text = L"Back";
+			this->back->UseVisualStyleBackColor = true;
+			this->back->Click += gcnew System::EventHandler(this, &BudgetingForm::back_Click);
 			// 
 			// label1
 			// 
@@ -154,7 +155,7 @@ namespace OOPP1 {
 			this->Controls->Add(this->spentAmountLabel);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->reset);
+			this->Controls->Add(this->back);
 			this->Controls->Add(this->setbudget);
 			this->Controls->Add(this->budgetamount);
 			this->Controls->Add(this->category);
@@ -177,17 +178,9 @@ private: System::Void setbudget_Click(System::Object^ sender, System::EventArgs^
 		MessageBox::Show("Failed to set budget.");
 	}
 }
-private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e) {
-	String^ selectedCategory = category->Text;
-	bool isExceeded = false;
 
-	if (dbHelper->updateSpentAmount(selectedCategory, 0, isExceeded)) {
-		MessageBox::Show("Budget reset successfully!");
-	}
-	else {
-		MessageBox::Show("Failed to reset budget.");
-	}
-
+private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
 }
 };
 }
