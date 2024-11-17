@@ -1,7 +1,7 @@
 #pragma once
 #include"IncomeExpensesForm.h"
 #include"FinancialReportForm.h"
-#include"AcadamicShedularForm.h"
+#include"AcadamicScheduler.h"
 #include"BudgetingForm.h"
 namespace OOPP1 {
 
@@ -273,9 +273,9 @@ private: System::Void d3_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Show();
 }
 private: System::Void d4_Click(System::Object^ sender, System::EventArgs^ e) {
-	AcadamicShedularForm^ acadamicShedularForm = gcnew AcadamicShedularForm();
+	AcadamicScheduler^ acadamicScheduler = gcnew AcadamicScheduler();
 	this->Hide();
-	acadamicShedularForm->ShowDialog();
+	acadamicScheduler->ShowDialog();
 	this->Show();
 }
 };

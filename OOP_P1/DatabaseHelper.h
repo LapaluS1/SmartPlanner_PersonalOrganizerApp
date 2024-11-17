@@ -8,13 +8,17 @@ using namespace System::Text; // For encoding strings
 using namespace System::Data;
 using namespace System::Collections::Generic;
 
+
 namespace OOPP1 {
 
 
     public ref class DatabaseHelper {
     public:
+
         // Connection string to the database
         SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+
+       
 
         // Method to check if provided credentials are valid
         static bool CheckCredentials(String^ username, String^ password) {
@@ -80,7 +84,197 @@ namespace OOPP1 {
                 }
             }
         }
+        // Get income data from the database
+        DataTable^ DatabaseHelper::GetIncomeData() {
+            DataTable^ dt = gcnew DataTable();
 
+            // Correct the column name: use 'IncomeExpense' instead of 'Type'
+            String^ query = "SELECT * FROM IncomeExpenses WHERE IncomeExpense = 'Income'";
+            SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+
+            try {
+                SqlDataAdapter^ adapter = gcnew SqlDataAdapter(query, connection);
+                adapter->Fill(dt);
+            }
+            catch (Exception^ ex) {
+                // Handle any database errors here (you can log it or show a message to the user)
+                Console::WriteLine("Error: " + ex->Message);
+            }
+
+            return dt;
+        }
+
+        // Get expense data from the database
+        DataTable^ DatabaseHelper::GetExpenseData() {
+            DataTable^ dt = gcnew DataTable();
+
+            // Correct the column name: use 'IncomeExpense' instead of 'Type'
+            String^ query = "SELECT * FROM IncomeExpenses WHERE IncomeExpense = 'Expenses'";
+            SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+
+            try {
+                SqlDataAdapter^ adapter = gcnew SqlDataAdapter(query, connection);
+                adapter->Fill(dt);
+            }
+            catch (Exception^ ex) {
+                // Handle any database errors here
+                Console::WriteLine("Error: " + ex->Message);
+            }
+
+            return dt;
+        }
+        void DatabaseHelper::UpdateIncomeExpense(int entryID, String^ incomeExpense, String^ date, String^ category, String^ description, String^ source, Decimal amount) {
+            String^ query = "UPDATE IncomeExpenses SET IncomeExpense = @IncomeExpense, Date = @Date, Category = @Category, Description = @Description, Source = @Source, Amount = @Amount WHERE EntryID = @EntryID";
+
+            SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+
+            try {
+                // Open the connection to the database
+                connection->Open();
+
+                SqlCommand^ command = gcnew SqlCommand(query, connection);
+
+                // Add parameters to prevent SQL injection
+                command->Parameters->AddWithValue("@EntryID", entryID);
+                command->Parameters->AddWithValue("@IncomeExpense", incomeExpense);
+                command->Parameters->AddWithValue("@Date", date);
+                command->Parameters->AddWithValue("@Category", category);
+                command->Parameters->AddWithValue("@Description", description);
+                command->Parameters->AddWithValue("@Source", source);
+                command->Parameters->AddWithValue("@Amount", amount);
+
+                // Execute the query to update the record
+                command->ExecuteNonQuery();
+            }
+            catch (Exception^ ex) {
+                // Handle errors
+                MessageBox::Show("Error: " + ex->Message);
+            }
+            finally {
+                // Close the connection
+                connection->Close();
+            }
+        }
+
+        // Method to add an academic schedule record
+        void AddAcademicSchedule(String^ subject, String^ subjectCode, DateTime date)
+        {
+            SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+            SqlCommand^ command = gcnew SqlCommand("INSERT INTO AcademicSchedule (Subject, SubjectCode, Date) VALUES (@Subject, @SubjectCode, @Date)", connection);
+
+            // Parameters for the SQL query
+            command->Parameters->AddWithValue("@Subject", subject);
+            command->Parameters->AddWithValue("@SubjectCode", subjectCode);
+            command->Parameters->AddWithValue("@Date", date);
+
+            try
+            {
+                connection->Open();
+                command->ExecuteNonQuery();
+                MessageBox::Show("Academic Schedule Added Successfully!");
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show("Error: " + ex->Message);
+            }
+            finally
+            {
+                connection->Close();
+            }
+        }
+
+        // DatabaseHelper.h
+
+ // Query to fetch daily income
+        DataTable^ DatabaseHelper::GetDailyIncome() {
+            // Query to fetch daily income, filtering by 'Income' in the IncomeExpense column
+            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Income' GROUP BY Date ORDER BY Date ASC";
+
+            // Execute the query and return the results as DataTable
+            return ExecuteQuery(query);
+        }
+
+        // Query to fetch daily expenses
+        DataTable^ DatabaseHelper::GetDailyExpenses() {
+            // Query to fetch daily expenses, filtering by 'Expense' in the IncomeExpense column
+            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Expenses' GROUP BY Date ORDER BY Date ASC";
+
+            // Execute the query and return the results as DataTable
+            return ExecuteQuery(query);
+        }
+
+
+
+        // Method to add an assignment record
+        void AddAssignment(String^ assignmentName, String^ subjectCode, DateTime startDate, DateTime endDate)
+        {
+            SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+            SqlCommand^ command = gcnew SqlCommand("INSERT INTO Assignments (AssignmentName, SubjectCode, StartDate, EndDate) VALUES (@AssignmentName, @SubjectCode, @StartDate, @EndDate)", connection);
+
+            // Parameters for the SQL query
+            command->Parameters->AddWithValue("@AssignmentName", assignmentName);
+            command->Parameters->AddWithValue("@SubjectCode", subjectCode);
+            command->Parameters->AddWithValue("@StartDate", startDate);
+            command->Parameters->AddWithValue("@EndDate", endDate);
+
+            try
+            {
+                connection->Open();
+                command->ExecuteNonQuery();
+                MessageBox::Show("Assignment Added Successfully!");
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show("Error: " + ex->Message);
+            }
+            finally
+            {
+                connection->Close();
+            }
+        }
+
+        DataTable^ GetAcademicSchedule(DateTime selectedDate) {
+            DataTable^ dt = gcnew DataTable();
+
+            // Assuming a connection and SQL command to retrieve schedule data
+            SqlConnection^ conn = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+
+            // SQL query to compare only the date part (ignore time part)
+            String^ query = "SELECT * FROM AcademicSchedule WHERE CAST(Date AS DATE) = @date";
+
+            SqlCommand^ cmd = gcnew SqlCommand(query, conn);
+
+            // Convert the selectedDate to just the date part to remove the time
+            cmd->Parameters->AddWithValue("@date", selectedDate.Date);
+
+            try {
+                SqlDataAdapter^ adapter = gcnew SqlDataAdapter(cmd);
+                adapter->Fill(dt);
+            }
+            catch (Exception^ ex) {
+                MessageBox::Show("Error retrieving data: " + ex->Message);
+            }
+            return dt;
+        }
+
+        // Method to retrieve assignments for a specific date range
+        DataTable^ GetAssignments(DateTime selectedDate) {
+            DataTable^ dt = gcnew DataTable();
+
+            SqlConnection^ conn = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+            String^ query = "SELECT * FROM Assignments WHERE StartDate <= @date AND EndDate >= @date";
+            SqlCommand^ cmd = gcnew SqlCommand(query, conn);
+            cmd->Parameters->AddWithValue("@date", selectedDate);
+
+            try {
+                SqlDataAdapter^ adapter = gcnew SqlDataAdapter(cmd);
+                adapter->Fill(dt);
+            }
+            catch (Exception^ ex) {
+                MessageBox::Show("Error retrieving data: " + ex->Message);
+            }
+            return dt;
+        }
         // Method to add an income or expense record
         bool addIncomeExpense(String^ incomeExpense, String^ date, String^ category, String^ source, String^ description, Decimal amount) {
             SqlTransaction^ transaction = nullptr;  // Declare transaction outside the try block
@@ -122,7 +316,7 @@ namespace OOPP1 {
 
                         int categoryCount = (int)checkCategoryCommand->ExecuteScalar();
                         if (categoryCount == 0) {
-                            MessageBox::Show("Category '" + category + "' does not exist in the CategoryBudgets table.");
+                            MessageBox::Show("Category '" + category + "' Buget is not set to the this category.Please firstly set budget in the CategoryBudeting Section.");
                             transaction->Rollback();
                             return false;
                         }
@@ -302,6 +496,7 @@ namespace OOPP1 {
                 }
                 return dt;
             }
+
          public: bool DeleteAllData() {
              try {
                  // Open the database connection
@@ -342,22 +537,54 @@ namespace OOPP1 {
                  }
              }
          }
-
-private: void ExecuteNonQuery(String^ query, SqlConnection^ connection) {
-    try {
-        SqlCommand^ cmd = gcnew SqlCommand(query, connection);
-        cmd->ExecuteNonQuery();  // Execute the query (no results expected)
+        
+    private: void ExecuteNonQuery(String^ query, SqlConnection^ connection) {
+        try {
+            SqlCommand^ cmd = gcnew SqlCommand(query, connection);
+            cmd->ExecuteNonQuery();  // Execute the query (no results expected)
+        }
+        catch (Exception^ ex) {
+            // Handle exceptions here
+            MessageBox::Show("Error executing query: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        }
     }
-    catch (Exception^ ex) {
-        // Handle exceptions here
-        MessageBox::Show("Error executing query: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+           
+
+
+public:
+    DataTable^ ExecuteQuery(String^ query)
+    {
+        // Create connection string (adjust it to your database)
+        String^ connectionString = "Data Source=localhost\\sqlexpress;Integrated Security=True";
+
+        // Create the connection and command objects
+        SqlConnection^ connection = gcnew SqlConnection(connectionString);
+        SqlCommand^ command = gcnew SqlCommand(query, connection);
+        SqlDataAdapter^ dataAdapter = gcnew SqlDataAdapter(command);
+
+        // Create a DataTable to hold the result
+        DataTable^ result = gcnew DataTable();
+
+        try
+        {
+            // Open the connection
+            connection->Open();
+
+            // Fill the DataTable with the results of the query
+            dataAdapter->Fill(result);
+        }
+        catch (Exception^ e)
+        {
+            MessageBox::Show("Error: " + e->Message);
+        }
+        finally
+        {
+            // Close the connection
+            connection->Close();
+        }
+
+        return result;
     }
-}
-
-
-
-
-
          
     private:
         // Method to hash a password using SHA256

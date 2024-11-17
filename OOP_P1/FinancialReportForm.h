@@ -7,6 +7,8 @@ namespace OOPP1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Windows::Forms::DataVisualization::Charting;
+
 
 
 	/// <summary>
@@ -22,6 +24,46 @@ namespace OOPP1 {
 			//TODO: Add the constructor code here
 			dbHelper = gcnew DatabaseHelper();
 			this->StartPosition = FormStartPosition::CenterScreen;
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ lineChartArea = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ lineLegend = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ expenseSeries = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ incomeSeries = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+
+			// Initialize the chart
+			this->chartIncomeExpenseLine = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			lineChartArea->Name = L"LineChartArea";
+			this->chartIncomeExpenseLine->ChartAreas->Add(lineChartArea);
+
+			lineLegend->Name = L"LineLegend";
+			this->chartIncomeExpenseLine->Legends->Add(lineLegend);
+
+			// Configure the Expense series
+			expenseSeries->ChartArea = L"LineChartArea";
+			expenseSeries->Legend = L"LineLegend";
+			expenseSeries->Name = L"Expenses";
+			expenseSeries->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			expenseSeries->Color = System::Drawing::Color::Red;
+
+			// Configure the Income series
+			incomeSeries->ChartArea = L"LineChartArea";
+			incomeSeries->Legend = L"LineLegend";
+			incomeSeries->Name = L"Income";
+			incomeSeries->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			incomeSeries->Color = System::Drawing::Color::Green;
+
+			this->chartIncomeExpenseLine->Series->Add(expenseSeries);
+			this->chartIncomeExpenseLine->Series->Add(incomeSeries);
+
+			// Set chart properties
+			this->chartIncomeExpenseLine->Location = System::Drawing::Point(20, 240); // Adjust location as needed
+			this->chartIncomeExpenseLine->Size = System::Drawing::Size(550, 250); // Adjust size as needed
+			this->chartIncomeExpenseLine->TabIndex = 10;
+			this->chartIncomeExpenseLine->Text = L"Income vs. Expense Line Chart";
+
+			// Add the chart to the form
+			this->Controls->Add(this->chartIncomeExpenseLine);
+
+			
 		}
 
 	protected:
@@ -39,16 +81,22 @@ namespace OOPP1 {
 	private:
 		DatabaseHelper^ dbHelper;
 	protected:
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ label2;
 
 
-	private: System::Windows::Forms::Label^ label3;
+
+
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chartIncomeExpenseLine;
 	private: System::Windows::Forms::Label^ lblTotalIncome;
 	private: System::Windows::Forms::Label^ lblTotalExpenses;
 	private: System::Windows::Forms::Label^ lblSavings;
 	private: System::Windows::Forms::Button^ btnGenerateReport;
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chartExpenses;
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::RichTextBox^ richTextBox1;
+	private: System::Windows::Forms::RichTextBox^ richTextBox2;
+
+
+
 
 
 	private:
@@ -64,80 +112,68 @@ namespace OOPP1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(FinancialReportForm::typeid));
 			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
 			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->lblTotalIncome = (gcnew System::Windows::Forms::Label());
 			this->lblTotalExpenses = (gcnew System::Windows::Forms::Label());
 			this->lblSavings = (gcnew System::Windows::Forms::Label());
 			this->btnGenerateReport = (gcnew System::Windows::Forms::Button());
 			this->chartExpenses = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartExpenses))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(43, 35);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(51, 16);
-			this->label1->TabIndex = 1;
-			this->label1->Text = L"Income";
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(34, 81);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(60, 16);
-			this->label2->TabIndex = 2;
-			this->label2->Text = L"Expense";
-			// 
-			// label3
-			// 
-			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(34, 136);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(47, 16);
-			this->label3->TabIndex = 5;
-			this->label3->Text = L"saving";
 			// 
 			// lblTotalIncome
 			// 
 			this->lblTotalIncome->AutoSize = true;
-			this->lblTotalIncome->Location = System::Drawing::Point(123, 35);
+			this->lblTotalIncome->BackColor = System::Drawing::Color::White;
+			this->lblTotalIncome->Font = (gcnew System::Drawing::Font(L"PT Sans", 19.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lblTotalIncome->Location = System::Drawing::Point(408, 188);
 			this->lblTotalIncome->Name = L"lblTotalIncome";
-			this->lblTotalIncome->Size = System::Drawing::Size(0, 16);
+			this->lblTotalIncome->Size = System::Drawing::Size(0, 43);
 			this->lblTotalIncome->TabIndex = 6;
 			// 
 			// lblTotalExpenses
 			// 
 			this->lblTotalExpenses->AutoSize = true;
-			this->lblTotalExpenses->Location = System::Drawing::Point(123, 81);
+			this->lblTotalExpenses->BackColor = System::Drawing::Color::White;
+			this->lblTotalExpenses->Font = (gcnew System::Drawing::Font(L"PT Sans", 19.8F, System::Drawing::FontStyle::Bold));
+			this->lblTotalExpenses->Location = System::Drawing::Point(779, 188);
 			this->lblTotalExpenses->Name = L"lblTotalExpenses";
-			this->lblTotalExpenses->Size = System::Drawing::Size(0, 16);
+			this->lblTotalExpenses->Size = System::Drawing::Size(0, 43);
 			this->lblTotalExpenses->TabIndex = 7;
 			// 
 			// lblSavings
 			// 
 			this->lblSavings->AutoSize = true;
-			this->lblSavings->Location = System::Drawing::Point(123, 136);
+			this->lblSavings->BackColor = System::Drawing::Color::White;
+			this->lblSavings->Font = (gcnew System::Drawing::Font(L"PT Sans", 19.8F, System::Drawing::FontStyle::Bold));
+			this->lblSavings->Location = System::Drawing::Point(1138, 188);
 			this->lblSavings->Name = L"lblSavings";
-			this->lblSavings->Size = System::Drawing::Size(0, 16);
+			this->lblSavings->Size = System::Drawing::Size(0, 43);
 			this->lblSavings->TabIndex = 8;
 			// 
 			// btnGenerateReport
 			// 
-			this->btnGenerateReport->Location = System::Drawing::Point(46, 191);
+			this->btnGenerateReport->BackColor = System::Drawing::Color::White;
+			this->btnGenerateReport->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnGenerateReport.BackgroundImage")));
+			this->btnGenerateReport->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->btnGenerateReport->Font = (gcnew System::Drawing::Font(L"PT Sans", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnGenerateReport->ForeColor = System::Drawing::Color::Transparent;
+			this->btnGenerateReport->Location = System::Drawing::Point(32, 187);
 			this->btnGenerateReport->Name = L"btnGenerateReport";
-			this->btnGenerateReport->Size = System::Drawing::Size(75, 23);
+			this->btnGenerateReport->Size = System::Drawing::Size(280, 45);
 			this->btnGenerateReport->TabIndex = 9;
 			this->btnGenerateReport->Text = L"Genarate";
-			this->btnGenerateReport->UseVisualStyleBackColor = true;
+			this->btnGenerateReport->UseVisualStyleBackColor = false;
 			this->btnGenerateReport->Click += gcnew System::EventHandler(this, &FinancialReportForm::btnGenerateReport_Click);
 			// 
 			// chartExpenses
@@ -146,7 +182,7 @@ namespace OOPP1 {
 			this->chartExpenses->ChartAreas->Add(chartArea1);
 			legend1->Name = L"Legend1";
 			this->chartExpenses->Legends->Add(legend1);
-			this->chartExpenses->Location = System::Drawing::Point(339, 35);
+			this->chartExpenses->Location = System::Drawing::Point(787, 279);
 			this->chartExpenses->Name = L"chartExpenses";
 			series1->ChartArea = L"ChartArea1";
 			series1->Legend = L"Legend1";
@@ -156,30 +192,98 @@ namespace OOPP1 {
 			series2->Name = L"Remaining";
 			this->chartExpenses->Series->Add(series1);
 			this->chartExpenses->Series->Add(series2);
-			this->chartExpenses->Size = System::Drawing::Size(1098, 665);
+			this->chartExpenses->Size = System::Drawing::Size(714, 366);
 			this->chartExpenses->TabIndex = 10;
 			this->chartExpenses->Text = L"chart1";
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(20, -7);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(1446, 312);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->TabIndex = 11;
+			this->pictureBox1->TabStop = false;
+			// 
+			// richTextBox1
+			// 
+			this->richTextBox1->BackColor = System::Drawing::Color::White;
+			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->richTextBox1->Location = System::Drawing::Point(32, 636);
+			this->richTextBox1->Name = L"richTextBox1";
+			this->richTextBox1->Size = System::Drawing::Size(674, 96);
+			this->richTextBox1->TabIndex = 12;
+			this->richTextBox1->Text = resources->GetString(L"richTextBox1.Text");
+			// 
+			// richTextBox2
+			// 
+			this->richTextBox2->BackColor = System::Drawing::Color::White;
+			this->richTextBox2->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->richTextBox2->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->richTextBox2->Location = System::Drawing::Point(732, 636);
+			this->richTextBox2->Name = L"richTextBox2";
+			this->richTextBox2->Size = System::Drawing::Size(674, 86);
+			this->richTextBox2->TabIndex = 13;
+			this->richTextBox2->Text = L"The chartExpenses visualizes the spent and remaining amounts for each budget cate"
+				L"gory, helping track financial progress and budget adherence. It updates dynamica"
+				L"lly based on the latest category data.";
 			// 
 			// FinancialReportForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::White;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->richTextBox2);
+			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->chartExpenses);
 			this->Controls->Add(this->btnGenerateReport);
 			this->Controls->Add(this->lblSavings);
 			this->Controls->Add(this->lblTotalExpenses);
 			this->Controls->Add(this->lblTotalIncome);
-			this->Controls->Add(this->label3);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
+			this->Controls->Add(this->pictureBox1);
 			this->Name = L"FinancialReportForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartExpenses))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+		void LoadIncomeExpenseLineChart() {
+			// Clear previous data
+			chartIncomeExpenseLine->Series["Expenses"]->Points->Clear();
+			chartIncomeExpenseLine->Series["Income"]->Points->Clear();
+
+			// Get daily expense and income data from the database
+			DataTable^ dailyExpenseData = dbHelper->GetDailyExpenses(); // Retrieve daily expenses
+			DataTable^ dailyIncomeData = dbHelper->GetDailyIncome();   // Retrieve daily income
+
+			// Populate the Expenses series
+			for (int i = 0; i < dailyExpenseData->Rows->Count; i++) {
+				DataRow^ row = dailyExpenseData->Rows[i];
+				DateTime date = Convert::ToDateTime(row["Date"]);
+				Decimal amount = Convert::ToDecimal(row["Amount"]);
+
+				// Add data points to the Expenses line
+				chartIncomeExpenseLine->Series["Expenses"]->Points->AddXY(date.ToShortDateString(), amount);
+			}
+
+			// Populate the Income series
+			for (int i = 0; i < dailyIncomeData->Rows->Count; i++) {
+				DataRow^ row = dailyIncomeData->Rows[i];
+				DateTime date = Convert::ToDateTime(row["Date"]);
+				Decimal amount = Convert::ToDecimal(row["Amount"]);
+
+				// Add data points to the Income line
+				chartIncomeExpenseLine->Series["Income"]->Points->AddXY(date.ToShortDateString(), amount);
+			}
+		}
+
 		// Method to display the financial report
 		void DisplayFinancialReport() {
 			// Get total income from the database
@@ -192,18 +296,17 @@ namespace OOPP1 {
 			Decimal savings = Decimal::Subtract(totalIncome, totalExpenses);
 
 			// Display the results
-			lblTotalIncome->Text = "Total Income: " + totalIncome.ToString("Rs .");
-			lblTotalExpenses->Text = "Total Expenses: " + totalExpenses.ToString("Rs .");
+			lblTotalIncome->Text = "Rs. " + totalIncome.ToString("");
+			lblTotalExpenses->Text = "Rs. " + totalExpenses.ToString("");
 			// Check if savings are negative, and update the label accordingly
 			if (savings < 0) {
-				lblSavings->Text = "Deficit: " + savings.ToString("Rs .");
+				lblSavings->Text = "Deficit: Rs." + savings.ToString("");
 			}
 			else {
-				lblSavings->Text = "Savings: " + savings.ToString("Rs .");
+				lblSavings->Text = "Rs. " + savings.ToString("");
 			}
 		}
 		
-
 		void LoadCategoryBudgetData() {
 			// Retrieve the category budget data from the database
 			DataTable^ categoryBudgetData = dbHelper->GetCategoryBudgetData();
@@ -222,20 +325,51 @@ namespace OOPP1 {
 				// Correct calculation for remaining amount (budgetLimit - spentAmount)
 				Decimal remainingAmount = Decimal::Subtract(budgetLimit, spentAmount);
 
+				// Ensure the remaining amount is not negative
+				if (remainingAmount < 0) {
+					remainingAmount = 0;
+				}
+
 				// Add the spent amount to the "Spent" series
 				chartExpenses->Series["Spent"]->Points->AddXY(category, spentAmount);
 
 				// Add the remaining amount to the "Remaining" series
 				chartExpenses->Series["Remaining"]->Points->AddXY(category, remainingAmount);
 			}
-		}
 
+			// Optionally, adjust the Y-axis range to ensure it accommodates the data
+			// Check that the ChartArea exists
+			if (chartExpenses->ChartAreas->Count == 0) {
+				chartExpenses->ChartAreas->Add(gcnew ChartArea("ChartArea1"));
+			}
+
+			// Set the Y-axis minimum to 0
+			chartExpenses->ChartAreas[0]->AxisY->Minimum = 0;
+
+			// Adjust the maximum Y-axis value based on the data
+			Decimal maxAmount = 0;
+			for (int i = 0; i < categoryBudgetData->Rows->Count; i++) {
+				DataRow^ row = categoryBudgetData->Rows[i];
+				Decimal budgetLimit = Convert::ToDecimal(row["BudgetLimit"]);
+				if (budgetLimit > maxAmount) {
+					maxAmount = budgetLimit;
+				}
+			}
+
+			// Convert 1.1 to Decimal explicitly
+			Decimal multiplier = Decimal::Parse("1.1");
+
+			// Multiply maxAmount with the Decimal multiplier
 			
-
-
+		}
 	private: System::Void btnGenerateReport_Click(System::Object^ sender, System::EventArgs^ e) {
 		DisplayFinancialReport();
 		LoadCategoryBudgetData();
+		LoadIncomeExpenseLineChart();
+		
 	}
+
+
+
 };
 }

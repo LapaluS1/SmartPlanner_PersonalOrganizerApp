@@ -121,7 +121,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AcadamicShedularForm.cpp" />
+    <ClCompile Include="AcadamicScheduler.cpp" />
     <ClCompile Include="BudgetingForm.cpp" />
     <ClCompile Include="Dashboard.cpp" />
     <ClCompile Include="FinancialReportForm.cpp" />
@@ -131,7 +131,7 @@
     <ClCompile Include="SignupForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AcadamicShedularForm.h">
+    <ClInclude Include="AcadamicScheduler.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="BudgetingForm.h">
@@ -155,6 +155,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AcadamicScheduler.resx">
+      <DependentUpon>AcadamicScheduler.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BudgetingForm.resx">
       <DependentUpon>BudgetingForm.h</DependentUpon>
     </EmbeddedResource>
