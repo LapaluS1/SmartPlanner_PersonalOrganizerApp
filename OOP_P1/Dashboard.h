@@ -27,7 +27,7 @@ namespace OOPP1 {
 
 			this->notificationTimer = gcnew System::Windows::Forms::Timer();
 			this->notificationTimer->Interval = 1000; // 1 second interval for fading effect
-			this->notificationTimer->Tick += gcnew System::EventHandler(this, &Dashboard::notificationTimer_Tick);
+			//this->notificationTimer->Tick += gcnew System::EventHandler(this, &Dashboard::notificationTimer_Tick);
 		}
 
 	protected:
@@ -56,8 +56,8 @@ namespace OOPP1 {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::Panel^ notificationPanel;
-	private: System::Windows::Forms::Label^ notificationLabel;
+
+
 
 
 
@@ -89,11 +89,8 @@ namespace OOPP1 {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->notificationPanel = (gcnew System::Windows::Forms::Panel());
-			this->notificationLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
-			this->notificationPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
@@ -229,23 +226,6 @@ namespace OOPP1 {
 			this->label5->TabIndex = 10;
 			this->label5->Text = L"Academic schedule";
 			// 
-			// notificationPanel
-			// 
-			this->notificationPanel->Controls->Add(this->notificationLabel);
-			this->notificationPanel->Location = System::Drawing::Point(1124, 583);
-			this->notificationPanel->Name = L"notificationPanel";
-			this->notificationPanel->Size = System::Drawing::Size(322, 158);
-			this->notificationPanel->TabIndex = 11;
-			// 
-			// notificationLabel
-			// 
-			this->notificationLabel->AutoSize = true;
-			this->notificationLabel->Location = System::Drawing::Point(28, 21);
-			this->notificationLabel->Name = L"notificationLabel";
-			this->notificationLabel->Size = System::Drawing::Size(44, 16);
-			this->notificationLabel->TabIndex = 0;
-			this->notificationLabel->Text = L"label6";
-			// 
 			// Dashboard
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -254,7 +234,6 @@ namespace OOPP1 {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1482, 753);
-			this->Controls->Add(this->notificationPanel);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
@@ -273,14 +252,12 @@ namespace OOPP1 {
 			this->Load += gcnew System::EventHandler(this, &Dashboard::Dashboard_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
-			this->notificationPanel->ResumeLayout(false);
-			this->notificationPanel->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void assignmentDeadlineTimer_Tick(System::Object^ sender, System::EventArgs^ e)
+	/*private: System::Void assignmentDeadlineTimer_Tick(System::Object^ sender, System::EventArgs^ e)
 	{
 		DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
 		DateTime today = DateTime::Now;
@@ -321,7 +298,7 @@ namespace OOPP1 {
 				this->notificationTimer->Stop();  // Stop the timer
 			}
 		}
-	}
+	}*/
 
 	private: System::Void Dashboard_Load(System::Object^ sender, System::EventArgs^ e) {
 	}

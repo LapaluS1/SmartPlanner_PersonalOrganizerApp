@@ -203,28 +203,6 @@ namespace OOPP1 {
             }
         }
 
-        // DatabaseHelper.h
-
- // Query to fetch daily income
-        DataTable^ DatabaseHelper::GetDailyIncome() {
-            // Query to fetch daily income, filtering by 'Income' in the IncomeExpense column
-            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Income' GROUP BY Date ORDER BY Date ASC";
-
-            // Execute the query and return the results as DataTable
-            return ExecuteQuery(query);
-        }
-
-        // Query to fetch daily expenses
-        DataTable^ DatabaseHelper::GetDailyExpenses() {
-            // Query to fetch daily expenses, filtering by 'Expense' in the IncomeExpense column
-            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Expenses' GROUP BY Date ORDER BY Date ASC";
-
-            // Execute the query and return the results as DataTable
-            return ExecuteQuery(query);
-        }
-
-
-
         // Method to add an assignment record
         void AddAssignment(String^ assignmentName, String^ subjectCode, DateTime startDate, DateTime endDate)
         {
@@ -252,6 +230,30 @@ namespace OOPP1 {
                 connection->Close();
             }
         }
+
+   
+
+
+        DataTable^ DatabaseHelper::GetDailyIncome() {
+            // Query to fetch daily income, filtering by 'Income' in the IncomeExpense column
+            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Income' GROUP BY Date ORDER BY Date ASC";
+
+            // Execute the query and return the results as DataTable
+            return ExecuteQuery(query);
+        }
+
+        // Query to fetch daily expenses
+        DataTable^ DatabaseHelper::GetDailyExpenses() {
+            // Query to fetch daily expenses, filtering by 'Expense' in the IncomeExpense column
+            String^ query = "SELECT Date, SUM(Amount) AS Amount FROM dbo.IncomeExpenses WHERE IncomeExpense = 'Expenses' GROUP BY Date ORDER BY Date ASC";
+
+            // Execute the query and return the results as DataTable
+            return ExecuteQuery(query);
+        }
+
+
+
+        
 
         DataTable^ GetAcademicSchedule(DateTime selectedDate) {
             DataTable^ dt = gcnew DataTable();
