@@ -30,13 +30,13 @@
     <ClCompile Include="IncomeExpensesForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AcadamicShedularForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FinancialReportForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BudgetingForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AcadamicScheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,13 +56,13 @@
     <ClInclude Include="IncomeExpensesForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AcadamicShedularForm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FinancialReportForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BudgetingForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AcadamicScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

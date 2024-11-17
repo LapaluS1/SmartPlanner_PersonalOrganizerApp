@@ -22,6 +22,7 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			dbHelper = gcnew DatabaseHelper();
+			this->StartPosition = FormStartPosition::CenterScreen;
 		}
 
 	protected:
@@ -41,11 +42,18 @@ namespace OOPP1 {
 	protected:
 	private: System::Windows::Forms::NumericUpDown^ budgetamount;
 	private: System::Windows::Forms::Button^ setbudget;
-	private: System::Windows::Forms::Button^ reset;
+
+
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ label2;
+
 	private: System::Windows::Forms::Label^ spentAmountLabel;
 	private: System::Windows::Forms::Label^ remainingAmountLabel;
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ label4;
+	private: System::Windows::Forms::Label^ label5;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
+	private: System::Windows::Forms::PictureBox^ pictureBox3;
 
 	private:
 		/// <summary>
@@ -60,79 +68,78 @@ namespace OOPP1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(BudgetingForm::typeid));
 			this->category = (gcnew System::Windows::Forms::ComboBox());
 			this->budgetamount = (gcnew System::Windows::Forms::NumericUpDown());
 			this->setbudget = (gcnew System::Windows::Forms::Button());
-			this->reset = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->spentAmountLabel = (gcnew System::Windows::Forms::Label());
 			this->remainingAmountLabel = (gcnew System::Windows::Forms::Label());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->budgetamount))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// category
 			// 
+			this->category->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->category->FormattingEnabled = true;
-			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
+			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
 				L"food", L"entertainment", L"traveling", L"clothing",
-					L"education equipment", L"university fee"
+					L"educationEquipment", L"universityFees", L"others"
 			});
-			this->category->Location = System::Drawing::Point(440, 73);
+			this->category->Location = System::Drawing::Point(721, 320);
 			this->category->Name = L"category";
-			this->category->Size = System::Drawing::Size(259, 24);
+			this->category->Size = System::Drawing::Size(423, 39);
 			this->category->TabIndex = 0;
 			// 
 			// budgetamount
 			// 
-			this->budgetamount->Location = System::Drawing::Point(440, 130);
+			this->budgetamount->Font = (gcnew System::Drawing::Font(L"PT Sans", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->budgetamount->Location = System::Drawing::Point(721, 430);
 			this->budgetamount->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000000, 0, 0, 0 });
 			this->budgetamount->Name = L"budgetamount";
-			this->budgetamount->Size = System::Drawing::Size(227, 22);
+			this->budgetamount->Size = System::Drawing::Size(423, 42);
 			this->budgetamount->TabIndex = 1;
 			// 
 			// setbudget
 			// 
-			this->setbudget->Location = System::Drawing::Point(337, 237);
+			this->setbudget->BackColor = System::Drawing::Color::Yellow;
+			this->setbudget->Font = (gcnew System::Drawing::Font(L"PT Sans", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->setbudget->ForeColor = System::Drawing::Color::Black;
+			this->setbudget->Location = System::Drawing::Point(721, 533);
 			this->setbudget->Name = L"setbudget";
-			this->setbudget->Size = System::Drawing::Size(106, 41);
+			this->setbudget->Size = System::Drawing::Size(423, 49);
 			this->setbudget->TabIndex = 2;
-			this->setbudget->Text = L"SetBudget";
-			this->setbudget->UseVisualStyleBackColor = true;
+			this->setbudget->Text = L"Set";
+			this->setbudget->UseVisualStyleBackColor = false;
 			this->setbudget->Click += gcnew System::EventHandler(this, &BudgetingForm::setbudget_Click);
-			// 
-			// reset
-			// 
-			this->reset->Location = System::Drawing::Point(848, 237);
-			this->reset->Name = L"reset";
-			this->reset->Size = System::Drawing::Size(75, 23);
-			this->reset->TabIndex = 3;
-			this->reset->Text = L"Reset";
-			this->reset->UseVisualStyleBackColor = true;
-			this->reset->Click += gcnew System::EventHandler(this, &BudgetingForm::reset_Click);
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(304, 80);
+			this->label1->Font = (gcnew System::Drawing::Font(L"PT Sans", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->Location = System::Drawing::Point(716, 291);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(60, 16);
+			this->label1->Size = System::Drawing::Size(95, 26);
 			this->label1->TabIndex = 4;
-			this->label1->Text = L"category";
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(307, 144);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(51, 16);
-			this->label2->TabIndex = 5;
-			this->label2->Text = L"amount";
+			this->label1->Text = L"Category :";
 			// 
 			// spentAmountLabel
 			// 
 			this->spentAmountLabel->AutoSize = true;
-			this->spentAmountLabel->Location = System::Drawing::Point(285, 367);
+			this->spentAmountLabel->Location = System::Drawing::Point(314, 472);
 			this->spentAmountLabel->Name = L"spentAmountLabel";
 			this->spentAmountLabel->Size = System::Drawing::Size(0, 16);
 			this->spentAmountLabel->TabIndex = 6;
@@ -140,27 +147,105 @@ namespace OOPP1 {
 			// remainingAmountLabel
 			// 
 			this->remainingAmountLabel->AutoSize = true;
-			this->remainingAmountLabel->Location = System::Drawing::Point(524, 367);
+			this->remainingAmountLabel->Location = System::Drawing::Point(553, 472);
 			this->remainingAmountLabel->Name = L"remainingAmountLabel";
 			this->remainingAmountLabel->Size = System::Drawing::Size(0, 16);
 			this->remainingAmountLabel->TabIndex = 7;
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(-4, 0);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(608, 756);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->TabIndex = 8;
+			this->pictureBox1->TabStop = false;
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->BackColor = System::Drawing::Color::Transparent;
+			this->label3->Font = (gcnew System::Drawing::Font(L"PT Sans", 48, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label3->ForeColor = System::Drawing::Color::Black;
+			this->label3->Location = System::Drawing::Point(703, 72);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(368, 103);
+			this->label3->TabIndex = 9;
+			this->label3->Text = L"Set Your :";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->BackColor = System::Drawing::Color::Transparent;
+			this->label4->Font = (gcnew System::Drawing::Font(L"PT Sans", 28.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label4->ForeColor = System::Drawing::Color::Black;
+			this->label4->Location = System::Drawing::Point(710, 157);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(560, 61);
+			this->label4->TabIndex = 10;
+			this->label4->Text = L"Category-Based Budgeting";
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Font = (gcnew System::Drawing::Font(L"PT Sans", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label5->Location = System::Drawing::Point(716, 401);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(89, 26);
+			this->label5->TabIndex = 11;
+			this->label5->Text = L"Amount :";
+			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
+			this->pictureBox2->Location = System::Drawing::Point(1302, 689);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(158, 52);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox2->TabIndex = 12;
+			this->pictureBox2->TabStop = false;
+			// 
+			// pictureBox3
+			// 
+			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
+			this->pictureBox3->Location = System::Drawing::Point(1416, 17);
+			this->pictureBox3->Name = L"pictureBox3";
+			this->pictureBox3->Size = System::Drawing::Size(45, 32);
+			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox3->TabIndex = 26;
+			this->pictureBox3->TabStop = false;
+			this->pictureBox3->Click += gcnew System::EventHandler(this, &BudgetingForm::pictureBox3_Click);
 			// 
 			// BudgetingForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::White;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->pictureBox3);
+			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->label5);
+			this->Controls->Add(this->label4);
+			this->Controls->Add(this->label3);
+			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->remainingAmountLabel);
 			this->Controls->Add(this->spentAmountLabel);
-			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->reset);
 			this->Controls->Add(this->setbudget);
 			this->Controls->Add(this->budgetamount);
 			this->Controls->Add(this->category);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
 			this->Name = L"BudgetingForm";
-			this->Text = L"BudgetingForm";
+			this->Text = L"SmartPlanner Category-Based Budgeting";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->budgetamount))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -177,17 +262,12 @@ private: System::Void setbudget_Click(System::Object^ sender, System::EventArgs^
 		MessageBox::Show("Failed to set budget.");
 	}
 }
-private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e) {
-	String^ selectedCategory = category->Text;
-	bool isExceeded = false;
 
-	if (dbHelper->updateSpentAmount(selectedCategory, 0, isExceeded)) {
-		MessageBox::Show("Budget reset successfully!");
-	}
-	else {
-		MessageBox::Show("Failed to reset budget.");
-	}
-
+private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
+}
+private: System::Void pictureBox3_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
 }
 };
 }

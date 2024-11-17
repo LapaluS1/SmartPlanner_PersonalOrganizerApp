@@ -1,7 +1,7 @@
 #pragma once
 #include"IncomeExpensesForm.h"
 #include"FinancialReportForm.h"
-#include"AcadamicShedularForm.h"
+#include"AcadamicScheduler.h"
 #include"BudgetingForm.h"
 namespace OOPP1 {
 
@@ -24,6 +24,10 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			this->StartPosition = FormStartPosition::CenterScreen;
+
+			this->notificationTimer = gcnew System::Windows::Forms::Timer();
+			this->notificationTimer->Interval = 1000; // 1 second interval for fading effect
+			//this->notificationTimer->Tick += gcnew System::EventHandler(this, &Dashboard::notificationTimer_Tick);
 		}
 
 	protected:
@@ -37,6 +41,7 @@ namespace OOPP1 {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Timer^ notificationTimer;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^ d1;
 	private: System::Windows::Forms::Button^ d3;
@@ -51,6 +56,8 @@ namespace OOPP1 {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
+
+
 
 
 
@@ -223,6 +230,7 @@ namespace OOPP1 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1482, 753);
@@ -249,6 +257,49 @@ namespace OOPP1 {
 
 		}
 #pragma endregion
+	/*private: System::Void assignmentDeadlineTimer_Tick(System::Object^ sender, System::EventArgs^ e)
+	{
+		DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
+		DateTime today = DateTime::Now;
+		DateTime alertThreshold = today.AddDays(2); // Alert if deadline is within 2 days
+
+		// Query assignments near the deadline
+		DataTable^ nearDeadlineAssignments = dbHelper->GetAssignmentsNearDeadline(today, alertThreshold);
+
+		// If there are assignments near deadline, show the notification
+		if (nearDeadlineAssignments->Rows->Count > 0)
+		{
+			String^ message = "Upcoming Assignment Deadlines:\n";
+			for each (DataRow ^ row in nearDeadlineAssignments->Rows)
+			{
+				message += row["AssignmentName"]->ToString() + " (End Date: " + row["EndDate"]->ToString() + ")\n";
+			}
+
+			// Set the message and show the notification panel
+			this->notificationLabel->Text = message;
+			this->notificationPanel->Visible = true;
+
+			// Start the fade-out timer
+			this->notificationTimer->Start();
+		}
+	}
+	private: System::Void notificationTimer_Tick(System::Object^ sender, System::EventArgs^ e)
+	{
+		// Check if the panel is visible and fade it out
+		if (this->notificationPanel->Visible)
+		{
+			static int fadeCount = 0;
+			fadeCount++;
+
+			if (fadeCount >= 5) // Fade out after 5 ticks (5 seconds)
+			{
+				this->notificationPanel->Visible = false;  // Hide the notification panel
+				fadeCount = 0; // Reset fade count
+				this->notificationTimer->Stop();  // Stop the timer
+			}
+		}
+	}*/
+
 	private: System::Void Dashboard_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -273,9 +324,9 @@ private: System::Void d3_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Show();
 }
 private: System::Void d4_Click(System::Object^ sender, System::EventArgs^ e) {
-	AcadamicShedularForm^ acadamicShedularForm = gcnew AcadamicShedularForm();
+	AcadamicScheduler^ acadamicScheduler = gcnew AcadamicScheduler();
 	this->Hide();
-	acadamicShedularForm->ShowDialog();
+	acadamicScheduler->ShowDialog();
 	this->Show();
 }
 };
