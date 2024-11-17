@@ -128,13 +128,13 @@ namespace OOPP1 {
 			// 
 			// selectIE
 			// 
-			this->selectIE->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->selectIE->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->selectIE->FormattingEnabled = true;
 			this->selectIE->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Income", L"Expenses" });
 			this->selectIE->Location = System::Drawing::Point(49, 187);
 			this->selectIE->Name = L"selectIE";
-			this->selectIE->Size = System::Drawing::Size(121, 25);
+			this->selectIE->Size = System::Drawing::Size(121, 30);
 			this->selectIE->TabIndex = 0;
 			// 
 			// label1
@@ -152,11 +152,11 @@ namespace OOPP1 {
 			// 
 			// dateTimePicker1
 			// 
-			this->dateTimePicker1->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->dateTimePicker1->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dateTimePicker1->Location = System::Drawing::Point(223, 188);
+			this->dateTimePicker1->Location = System::Drawing::Point(201, 187);
 			this->dateTimePicker1->Name = L"dateTimePicker1";
-			this->dateTimePicker1->Size = System::Drawing::Size(222, 24);
+			this->dateTimePicker1->Size = System::Drawing::Size(262, 29);
 			this->dateTimePicker1->TabIndex = 2;
 			// 
 			// label2
@@ -165,7 +165,7 @@ namespace OOPP1 {
 			this->label2->BackColor = System::Drawing::Color::DodgerBlue;
 			this->label2->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Bold));
 			this->label2->ForeColor = System::Drawing::Color::White;
-			this->label2->Location = System::Drawing::Point(219, 156);
+			this->label2->Location = System::Drawing::Point(197, 156);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(44, 22);
 			this->label2->TabIndex = 3;
@@ -173,7 +173,7 @@ namespace OOPP1 {
 			// 
 			// category
 			// 
-			this->category->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->category->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->category->FormattingEnabled = true;
 			this->category->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
@@ -182,7 +182,7 @@ namespace OOPP1 {
 			});
 			this->category->Location = System::Drawing::Point(491, 188);
 			this->category->Name = L"category";
-			this->category->Size = System::Drawing::Size(171, 25);
+			this->category->Size = System::Drawing::Size(171, 30);
 			this->category->TabIndex = 4;
 			// 
 			// label3
@@ -211,7 +211,7 @@ namespace OOPP1 {
 			// 
 			// source
 			// 
-			this->source->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->source->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->source->FormattingEnabled = true;
 			this->source->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
@@ -220,7 +220,7 @@ namespace OOPP1 {
 			});
 			this->source->Location = System::Drawing::Point(709, 187);
 			this->source->Name = L"source";
-			this->source->Size = System::Drawing::Size(171, 25);
+			this->source->Size = System::Drawing::Size(171, 30);
 			this->source->TabIndex = 6;
 			// 
 			// label5
@@ -237,11 +237,11 @@ namespace OOPP1 {
 			// 
 			// description
 			// 
-			this->description->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->description->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->description->Location = System::Drawing::Point(926, 187);
 			this->description->Name = L"description";
-			this->description->Size = System::Drawing::Size(214, 24);
+			this->description->Size = System::Drawing::Size(214, 29);
 			this->description->TabIndex = 9;
 			// 
 			// label6
@@ -258,12 +258,12 @@ namespace OOPP1 {
 			// 
 			// amount
 			// 
-			this->amount->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->amount->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->amount->Location = System::Drawing::Point(1188, 187);
 			this->amount->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100000000, 0, 0, 0 });
 			this->amount->Name = L"amount";
-			this->amount->Size = System::Drawing::Size(120, 24);
+			this->amount->Size = System::Drawing::Size(120, 29);
 			this->amount->TabIndex = 11;
 			// 
 			// Add
@@ -311,7 +311,7 @@ namespace OOPP1 {
 			this->dgvIncome->Name = L"dgvIncome";
 			this->dgvIncome->RowHeadersWidth = 51;
 			this->dgvIncome->RowTemplate->Height = 24;
-			this->dgvIncome->Size = System::Drawing::Size(1333, 166);
+			this->dgvIncome->Size = System::Drawing::Size(1303, 166);
 			this->dgvIncome->TabIndex = 17;
 			// 
 			// dgvexpenses
@@ -323,7 +323,7 @@ namespace OOPP1 {
 			this->dgvexpenses->Name = L"dgvexpenses";
 			this->dgvexpenses->RowHeadersWidth = 51;
 			this->dgvexpenses->RowTemplate->Height = 24;
-			this->dgvexpenses->Size = System::Drawing::Size(1333, 166);
+			this->dgvexpenses->Size = System::Drawing::Size(1303, 166);
 			this->dgvexpenses->TabIndex = 18;
 			// 
 			// label8
@@ -365,9 +365,9 @@ namespace OOPP1 {
 			this->btnUpdate->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnUpdate->ForeColor = System::Drawing::Color::White;
-			this->btnUpdate->Location = System::Drawing::Point(1314, 676);
+			this->btnUpdate->Location = System::Drawing::Point(1296, 676);
 			this->btnUpdate->Name = L"btnUpdate";
-			this->btnUpdate->Size = System::Drawing::Size(102, 39);
+			this->btnUpdate->Size = System::Drawing::Size(120, 39);
 			this->btnUpdate->TabIndex = 22;
 			this->btnUpdate->Text = L"Update";
 			this->btnUpdate->UseVisualStyleBackColor = false;
@@ -379,9 +379,9 @@ namespace OOPP1 {
 			this->ViewData->Font = (gcnew System::Drawing::Font(L"PT Sans", 7.799999F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->ViewData->ForeColor = System::Drawing::Color::White;
-			this->ViewData->Location = System::Drawing::Point(1206, 678);
+			this->ViewData->Location = System::Drawing::Point(1170, 677);
 			this->ViewData->Name = L"ViewData";
-			this->ViewData->Size = System::Drawing::Size(102, 37);
+			this->ViewData->Size = System::Drawing::Size(120, 37);
 			this->ViewData->TabIndex = 23;
 			this->ViewData->Text = L"View Data";
 			this->ViewData->UseVisualStyleBackColor = false;
@@ -398,6 +398,7 @@ namespace OOPP1 {
 			// 
 			// pictureBox3
 			// 
+			this->pictureBox3->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
 			this->pictureBox3->Location = System::Drawing::Point(26, 22);
 			this->pictureBox3->Name = L"pictureBox3";

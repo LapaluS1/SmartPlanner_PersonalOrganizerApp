@@ -94,6 +94,7 @@ namespace OOPP1 {
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::RichTextBox^ richTextBox1;
 	private: System::Windows::Forms::RichTextBox^ richTextBox2;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
 
 
 
@@ -125,8 +126,10 @@ namespace OOPP1 {
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartExpenses))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// lblTotalIncome
@@ -232,12 +235,24 @@ namespace OOPP1 {
 				L"gory, helping track financial progress and budget adherence. It updates dynamica"
 				L"lly based on the latest category data.";
 			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
+			this->pictureBox2->Location = System::Drawing::Point(1424, 703);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(46, 40);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox2->TabIndex = 14;
+			this->pictureBox2->TabStop = false;
+			this->pictureBox2->Click += gcnew System::EventHandler(this, &FinancialReportForm::pictureBox2_Click);
+			// 
 			// FinancialReportForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->richTextBox2);
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->chartExpenses);
@@ -246,9 +261,12 @@ namespace OOPP1 {
 			this->Controls->Add(this->lblTotalExpenses);
 			this->Controls->Add(this->lblTotalIncome);
 			this->Controls->Add(this->pictureBox1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"FinancialReportForm";
+			this->Text = L"SmartPlanner Financial_Report";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartExpenses))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -371,5 +389,8 @@ namespace OOPP1 {
 
 
 
+private: System::Void pictureBox2_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
+}
 };
 }

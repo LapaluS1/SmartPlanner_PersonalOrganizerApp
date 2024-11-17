@@ -123,6 +123,23 @@ namespace OOPP1 {
 
             return dt;
         }
+        DataTable^ DatabaseHelper::GetAssignmentsNearDeadline(DateTime today, DateTime threshold)
+        {
+            // SQL Query to fetch assignments with deadlines approaching
+            String^ query = "SELECT AssignmentName, EndDate FROM Assignments WHERE EndDate BETWEEN @today AND @threshold";
+
+            SqlCommand^ cmd = gcnew SqlCommand(query, connection);
+            cmd->Parameters->AddWithValue("@today", today);
+            cmd->Parameters->AddWithValue("@threshold", threshold);
+
+            SqlDataAdapter^ adapter = gcnew SqlDataAdapter(cmd);
+            DataTable^ result = gcnew DataTable();
+            adapter->Fill(result);
+
+            return result;
+        }
+
+
         void DatabaseHelper::UpdateIncomeExpense(int entryID, String^ incomeExpense, String^ date, String^ category, String^ description, String^ source, Decimal amount) {
             String^ query = "UPDATE IncomeExpenses SET IncomeExpense = @IncomeExpense, Date = @Date, Category = @Category, Description = @Description, Source = @Source, Amount = @Amount WHERE EntryID = @EntryID";
 
@@ -156,16 +173,19 @@ namespace OOPP1 {
             }
         }
 
-        // Method to add an academic schedule record
-        void AddAcademicSchedule(String^ subject, String^ subjectCode, DateTime date)
+        void DatabaseHelper::AddAcademicSchedule(String^ subject, String^ subjectCode, DateTime date, DateTime startTime)
         {
             SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
-            SqlCommand^ command = gcnew SqlCommand("INSERT INTO AcademicSchedule (Subject, SubjectCode, Date) VALUES (@Subject, @SubjectCode, @Date)", connection);
+            SqlCommand^ command = gcnew SqlCommand(
+                "INSERT INTO AcademicSchedule (Subject, SubjectCode, Date, StartTime) VALUES (@Subject, @SubjectCode, @Date, @StartTime)",
+                connection
+            );
 
             // Parameters for the SQL query
             command->Parameters->AddWithValue("@Subject", subject);
             command->Parameters->AddWithValue("@SubjectCode", subjectCode);
             command->Parameters->AddWithValue("@Date", date);
+            command->Parameters->AddWithValue("@StartTime", startTime.TimeOfDay); // Use TimeOfDay to store only the time part.
 
             try
             {

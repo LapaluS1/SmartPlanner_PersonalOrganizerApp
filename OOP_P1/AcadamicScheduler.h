@@ -9,6 +9,9 @@ namespace OOPP1 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+
+
+
 	/// <summary>
 	/// Summary for AcadamicScheduler
 	/// </summary>
@@ -21,7 +24,12 @@ namespace OOPP1 {
 			//
 			//TODO: Add the constructor code here
 			this->monthCalendar->DateChanged += gcnew System::Windows::Forms::DateRangeEventHandler(this, &AcadamicScheduler::monthCalendar_DateChanged);
+			this->StartPosition = FormStartPosition::CenterScreen;
 
+			this->assignmentDeadlineTimer = (gcnew System::Windows::Forms::Timer());
+			this->assignmentDeadlineTimer->Interval = 60000; // Check every 60 seconds
+			this->assignmentDeadlineTimer->Tick += gcnew System::EventHandler(this, &AcadamicScheduler::assignmentDeadlineTimer_Tick);
+			this->assignmentDeadlineTimer->Start();
 		}
 
 	protected:
@@ -35,19 +43,20 @@ namespace OOPP1 {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Timer^ assignmentDeadlineTimer;
+
 	protected:
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::TextBox^ AcaSubject;
 
 
-	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::TextBox^ AcaSC;
 
-	private: System::Windows::Forms::DateTimePicker^ AcaDate;
-	private: System::Windows::Forms::Button^ AcaAdd;
+
+
+
+
+
+
+
+
 	private: System::Windows::Forms::Button^ AssAdd;
 
 	private: System::Windows::Forms::DateTimePicker^ AssStartDate;
@@ -61,8 +70,26 @@ namespace OOPP1 {
 
 	private: System::Windows::Forms::DataGridView^ gridAcademicSchedule;
 	private: System::Windows::Forms::DataGridView^ gridAssignments;
-	private: System::Windows::Forms::DateTimePicker^ Time;
+	private: System::Windows::Forms::Button^ AcaAdd;
+	private: System::Windows::Forms::DateTimePicker^ AcaDate;
+	private: System::Windows::Forms::TextBox^ AcaSC;
+	private: System::Windows::Forms::Label^ label5;
+	private: System::Windows::Forms::Label^ label4;
+	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label10;
+	private: System::Windows::Forms::TextBox^ AcaSubject;
+	private: System::Windows::Forms::DateTimePicker^ AcaTime;
+
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::PictureBox^ pictureBox3;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
+	private: System::Windows::Forms::Label^ label1;
+
+
+
+
+
+
 	private: System::Windows::Forms::MonthCalendar^ monthCalendar;
 	private: System::Void monthCalendar_DateChanged(System::Object^ sender, System::Windows::Forms::DateRangeEventArgs^ e) {
 		DateTime selectedDate = monthCalendar->SelectionStart;
@@ -91,15 +118,7 @@ namespace OOPP1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->AcaSubject = (gcnew System::Windows::Forms::TextBox());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->AcaSC = (gcnew System::Windows::Forms::TextBox());
-			this->AcaDate = (gcnew System::Windows::Forms::DateTimePicker());
-			this->AcaAdd = (gcnew System::Windows::Forms::Button());
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AcadamicScheduler::typeid));
 			this->AssAdd = (gcnew System::Windows::Forms::Button());
 			this->AssStartDate = (gcnew System::Windows::Forms::DateTimePicker());
 			this->AssSubjectCode = (gcnew System::Windows::Forms::TextBox());
@@ -112,212 +131,290 @@ namespace OOPP1 {
 			this->gridAcademicSchedule = (gcnew System::Windows::Forms::DataGridView());
 			this->gridAssignments = (gcnew System::Windows::Forms::DataGridView());
 			this->monthCalendar = (gcnew System::Windows::Forms::MonthCalendar());
-			this->Time = (gcnew System::Windows::Forms::DateTimePicker());
+			this->AcaAdd = (gcnew System::Windows::Forms::Button());
+			this->AcaDate = (gcnew System::Windows::Forms::DateTimePicker());
+			this->AcaSC = (gcnew System::Windows::Forms::TextBox());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->AcaSubject = (gcnew System::Windows::Forms::TextBox());
+			this->AcaTime = (gcnew System::Windows::Forms::DateTimePicker());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAcademicSchedule))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAssignments))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(274, 29);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(132, 16);
-			this->label1->TabIndex = 0;
-			this->label1->Text = L"Acadamic Scheduler";
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(887, 18);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(141, 16);
-			this->label2->TabIndex = 1;
-			this->label2->Text = L"Assignment Scheduler";
-			// 
-			// AcaSubject
-			// 
-			this->AcaSubject->Location = System::Drawing::Point(325, 71);
-			this->AcaSubject->Name = L"AcaSubject";
-			this->AcaSubject->Size = System::Drawing::Size(228, 22);
-			this->AcaSubject->TabIndex = 2;
-			// 
-			// label3
-			// 
-			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(195, 71);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(52, 16);
-			this->label3->TabIndex = 3;
-			this->label3->Text = L"Subject";
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(181, 112);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(88, 16);
-			this->label4->TabIndex = 4;
-			this->label4->Text = L"Subject Code";
-			// 
-			// label5
-			// 
-			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(195, 178);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(36, 16);
-			this->label5->TabIndex = 5;
-			this->label5->Text = L"Date";
-			// 
-			// AcaSC
-			// 
-			this->AcaSC->Location = System::Drawing::Point(325, 112);
-			this->AcaSC->Name = L"AcaSC";
-			this->AcaSC->Size = System::Drawing::Size(228, 22);
-			this->AcaSC->TabIndex = 6;
-			// 
-			// AcaDate
-			// 
-			this->AcaDate->Location = System::Drawing::Point(325, 178);
-			this->AcaDate->Name = L"AcaDate";
-			this->AcaDate->Size = System::Drawing::Size(200, 22);
-			this->AcaDate->TabIndex = 7;
-			// 
-			// AcaAdd
-			// 
-			this->AcaAdd->Location = System::Drawing::Point(325, 215);
-			this->AcaAdd->Name = L"AcaAdd";
-			this->AcaAdd->Size = System::Drawing::Size(75, 23);
-			this->AcaAdd->TabIndex = 8;
-			this->AcaAdd->Text = L"Add";
-			this->AcaAdd->UseVisualStyleBackColor = true;
-			this->AcaAdd->Click += gcnew System::EventHandler(this, &AcadamicScheduler::AcaAdd_Click);
 			// 
 			// AssAdd
 			// 
-			this->AssAdd->Location = System::Drawing::Point(909, 211);
+			this->AssAdd->BackColor = System::Drawing::Color::DodgerBlue;
+			this->AssAdd->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Bold));
+			this->AssAdd->ForeColor = System::Drawing::Color::White;
+			this->AssAdd->Location = System::Drawing::Point(1203, 631);
 			this->AssAdd->Name = L"AssAdd";
-			this->AssAdd->Size = System::Drawing::Size(75, 23);
+			this->AssAdd->Size = System::Drawing::Size(337, 46);
 			this->AssAdd->TabIndex = 15;
 			this->AssAdd->Text = L"Add";
-			this->AssAdd->UseVisualStyleBackColor = true;
+			this->AssAdd->UseVisualStyleBackColor = false;
 			this->AssAdd->Click += gcnew System::EventHandler(this, &AcadamicScheduler::AssAdd_Click);
 			// 
 			// AssStartDate
 			// 
-			this->AssStartDate->Location = System::Drawing::Point(909, 136);
+			this->AssStartDate->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AssStartDate->Location = System::Drawing::Point(1202, 423);
 			this->AssStartDate->Name = L"AssStartDate";
-			this->AssStartDate->Size = System::Drawing::Size(200, 22);
+			this->AssStartDate->Size = System::Drawing::Size(338, 31);
 			this->AssStartDate->TabIndex = 14;
 			// 
 			// AssSubjectCode
 			// 
-			this->AssSubjectCode->Location = System::Drawing::Point(909, 100);
+			this->AssSubjectCode->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AssSubjectCode->Location = System::Drawing::Point(1202, 319);
 			this->AssSubjectCode->Name = L"AssSubjectCode";
-			this->AssSubjectCode->Size = System::Drawing::Size(228, 22);
+			this->AssSubjectCode->Size = System::Drawing::Size(338, 31);
 			this->AssSubjectCode->TabIndex = 13;
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(801, 141);
+			this->label6->BackColor = System::Drawing::Color::White;
+			this->label6->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label6->Location = System::Drawing::Point(1198, 390);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(70, 16);
+			this->label6->Size = System::Drawing::Size(100, 26);
 			this->label6->TabIndex = 12;
 			this->label6->Text = L"Start_Date";
 			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
-			this->label7->Location = System::Drawing::Point(768, 100);
+			this->label7->BackColor = System::Drawing::Color::White;
+			this->label7->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label7->Location = System::Drawing::Point(1197, 288);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(88, 16);
+			this->label7->Size = System::Drawing::Size(122, 26);
 			this->label7->TabIndex = 11;
 			this->label7->Text = L"Subject Code";
 			// 
 			// label8
 			// 
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(779, 59);
+			this->label8->BackColor = System::Drawing::Color::White;
+			this->label8->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label8->Location = System::Drawing::Point(1198, 187);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(77, 16);
+			this->label8->Size = System::Drawing::Size(111, 26);
 			this->label8->TabIndex = 10;
 			this->label8->Text = L"Assignment";
 			// 
 			// AssName
 			// 
-			this->AssName->Location = System::Drawing::Point(909, 59);
+			this->AssName->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AssName->Location = System::Drawing::Point(1203, 216);
 			this->AssName->Name = L"AssName";
-			this->AssName->Size = System::Drawing::Size(228, 22);
+			this->AssName->Size = System::Drawing::Size(337, 31);
 			this->AssName->TabIndex = 9;
 			// 
 			// AssEndDate
 			// 
-			this->AssEndDate->Location = System::Drawing::Point(909, 174);
+			this->AssEndDate->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AssEndDate->Location = System::Drawing::Point(1202, 533);
 			this->AssEndDate->Name = L"AssEndDate";
-			this->AssEndDate->Size = System::Drawing::Size(200, 22);
+			this->AssEndDate->Size = System::Drawing::Size(338, 31);
 			this->AssEndDate->TabIndex = 17;
 			// 
 			// label9
 			// 
 			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(801, 179);
+			this->label9->BackColor = System::Drawing::Color::White;
+			this->label9->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label9->Location = System::Drawing::Point(1198, 504);
 			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(67, 16);
+			this->label9->Size = System::Drawing::Size(92, 26);
 			this->label9->TabIndex = 16;
 			this->label9->Text = L"End_Date";
 			// 
 			// gridAcademicSchedule
 			// 
+			this->gridAcademicSchedule->BackgroundColor = System::Drawing::SystemColors::Control;
+			this->gridAcademicSchedule->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->gridAcademicSchedule->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->gridAcademicSchedule->Location = System::Drawing::Point(448, 356);
+			this->gridAcademicSchedule->Location = System::Drawing::Point(440, 346);
 			this->gridAcademicSchedule->Name = L"gridAcademicSchedule";
 			this->gridAcademicSchedule->RowHeadersWidth = 51;
 			this->gridAcademicSchedule->RowTemplate->Height = 24;
-			this->gridAcademicSchedule->Size = System::Drawing::Size(853, 127);
+			this->gridAcademicSchedule->Size = System::Drawing::Size(706, 155);
 			this->gridAcademicSchedule->TabIndex = 19;
 			// 
 			// gridAssignments
 			// 
+			this->gridAssignments->BackgroundColor = System::Drawing::SystemColors::Control;
+			this->gridAssignments->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->gridAssignments->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->gridAssignments->Location = System::Drawing::Point(448, 489);
+			this->gridAssignments->Location = System::Drawing::Point(440, 517);
 			this->gridAssignments->Name = L"gridAssignments";
 			this->gridAssignments->RowHeadersWidth = 51;
 			this->gridAssignments->RowTemplate->Height = 24;
-			this->gridAssignments->Size = System::Drawing::Size(853, 127);
+			this->gridAssignments->Size = System::Drawing::Size(706, 160);
 			this->gridAssignments->TabIndex = 20;
 			// 
 			// monthCalendar
 			// 
-			this->monthCalendar->Location = System::Drawing::Point(71, 356);
+			this->monthCalendar->Location = System::Drawing::Point(665, 107);
 			this->monthCalendar->Name = L"monthCalendar";
 			this->monthCalendar->TabIndex = 21;
 			// 
-			// Time
+			// AcaAdd
 			// 
-			this->Time->Format = System::Windows::Forms::DateTimePickerFormat::Time;
-			this->Time->Location = System::Drawing::Point(325, 146);
-			this->Time->Name = L"Time";
-			this->Time->Size = System::Drawing::Size(123, 22);
-			this->Time->TabIndex = 22;
+			this->AcaAdd->BackColor = System::Drawing::Color::DodgerBlue;
+			this->AcaAdd->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->AcaAdd->ForeColor = System::Drawing::Color::White;
+			this->AcaAdd->Location = System::Drawing::Point(43, 631);
+			this->AcaAdd->Name = L"AcaAdd";
+			this->AcaAdd->Size = System::Drawing::Size(334, 46);
+			this->AcaAdd->TabIndex = 8;
+			this->AcaAdd->Text = L"Add";
+			this->AcaAdd->UseVisualStyleBackColor = false;
+			this->AcaAdd->Click += gcnew System::EventHandler(this, &AcadamicScheduler::AcaAdd_Click);
+			// 
+			// AcaDate
+			// 
+			this->AcaDate->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AcaDate->Location = System::Drawing::Point(43, 533);
+			this->AcaDate->Name = L"AcaDate";
+			this->AcaDate->Size = System::Drawing::Size(334, 31);
+			this->AcaDate->TabIndex = 7;
+			// 
+			// AcaSC
+			// 
+			this->AcaSC->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AcaSC->Location = System::Drawing::Point(43, 319);
+			this->AcaSC->Name = L"AcaSC";
+			this->AcaSC->Size = System::Drawing::Size(334, 31);
+			this->AcaSC->TabIndex = 6;
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->BackColor = System::Drawing::Color::White;
+			this->label5->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label5->Location = System::Drawing::Point(38, 504);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(51, 26);
+			this->label5->TabIndex = 5;
+			this->label5->Text = L"Date";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->BackColor = System::Drawing::Color::White;
+			this->label4->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label4->Location = System::Drawing::Point(40, 288);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(122, 26);
+			this->label4->TabIndex = 4;
+			this->label4->Text = L"Subject Code";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->BackColor = System::Drawing::Color::White;
+			this->label3->Font = (gcnew System::Drawing::Font(L"PT Sans", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label3->Location = System::Drawing::Point(38, 187);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(75, 26);
+			this->label3->TabIndex = 3;
+			this->label3->Text = L"Subject";
 			// 
 			// label10
 			// 
 			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(195, 146);
+			this->label10->BackColor = System::Drawing::Color::White;
+			this->label10->Font = (gcnew System::Drawing::Font(L"PT Sans", 12));
+			this->label10->Location = System::Drawing::Point(41, 390);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(72, 16);
+			this->label10->Size = System::Drawing::Size(103, 26);
 			this->label10->TabIndex = 23;
 			this->label10->Text = L"Start_Time";
+			// 
+			// AcaSubject
+			// 
+			this->AcaSubject->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->AcaSubject->Location = System::Drawing::Point(43, 221);
+			this->AcaSubject->Name = L"AcaSubject";
+			this->AcaSubject->Size = System::Drawing::Size(334, 31);
+			this->AcaSubject->TabIndex = 2;
+			// 
+			// AcaTime
+			// 
+			this->AcaTime->Font = (gcnew System::Drawing::Font(L"PT Sans", 10.8F));
+			this->AcaTime->Format = System::Windows::Forms::DateTimePickerFormat::Time;
+			this->AcaTime->ImeMode = System::Windows::Forms::ImeMode::On;
+			this->AcaTime->Location = System::Drawing::Point(43, 423);
+			this->AcaTime->Name = L"AcaTime";
+			this->AcaTime->Size = System::Drawing::Size(137, 31);
+			this->AcaTime->TabIndex = 24;
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(12, 6);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(396, 735);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->TabIndex = 25;
+			this->pictureBox1->TabStop = false;
+			// 
+			// pictureBox3
+			// 
+			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
+			this->pictureBox3->Location = System::Drawing::Point(1174, 6);
+			this->pictureBox3->Name = L"pictureBox3";
+			this->pictureBox3->Size = System::Drawing::Size(396, 735);
+			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox3->TabIndex = 27;
+			this->pictureBox3->TabStop = false;
+			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
+			this->pictureBox2->Location = System::Drawing::Point(831, 707);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(180, 34);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox2->TabIndex = 28;
+			this->pictureBox2->TabStop = false;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->BackColor = System::Drawing::Color::Transparent;
+			this->label1->Font = (gcnew System::Drawing::Font(L"PT Sans", 24, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->Location = System::Drawing::Point(626, 30);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(342, 52);
+			this->label1->TabIndex = 29;
+			this->label1->Text = L"Acadamic Sheduler";
 			// 
 			// AcadamicScheduler
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->ClientSize = System::Drawing::Size(1582, 753);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->AcaTime);
 			this->Controls->Add(this->label10);
-			this->Controls->Add(this->Time);
 			this->Controls->Add(this->monthCalendar);
 			this->Controls->Add(this->gridAssignments);
 			this->Controls->Add(this->gridAcademicSchedule);
@@ -337,30 +434,57 @@ namespace OOPP1 {
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->AcaSubject);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
+			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->pictureBox3);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"AcadamicScheduler";
-			this->Text = L"AcadamicScheduler";
+			this->Text = L"SmartPlanner Acadamic Scheduler";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAcademicSchedule))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAssignments))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+	private: System::Void assignmentDeadlineTimer_Tick(System::Object^ sender, System::EventArgs^ e)
+	{
+		DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
+		DateTime today = DateTime::Now;
+		DateTime alertThreshold = today.AddDays(2); // Example: Alert if deadline is within 2 days
+
+		// Query assignments near the deadline
+		DataTable^ nearDeadlineAssignments = dbHelper->GetAssignmentsNearDeadline(today, alertThreshold);
+
+		// If there are assignments near deadline, show an alert
+		if (nearDeadlineAssignments->Rows->Count > 0)
+		{
+			String^ message = "Upcoming Assignment Deadlines:\n";
+			for each (DataRow ^ row in nearDeadlineAssignments->Rows)
+			{
+				message += row["Name"]->ToString() + " (End Date: " + row["EndDate"]->ToString() + ")\n";
+			}
+			MessageBox::Show(message, "Assignment Deadline Alert", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+		}
+	}
+
 	private: System::Void AcaAdd_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ subject = AcaSubject->Text;
 		String^ subjectCode = AcaSC->Text;
 		DateTime date = AcaDate->Value;
+		DateTime startTime = AcaTime->Value; // Assuming AcaTime is a DateTimePicker for time selection.
 
 		// Create an instance of DatabaseHelper and call the AddAcademicSchedule method
 		DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
-		dbHelper->AddAcademicSchedule(subject, subjectCode, date);
+		dbHelper->AddAcademicSchedule(subject, subjectCode, date, startTime);
 
 		// Optionally, clear the input fields after adding the record
 		AcaSubject->Clear();
 		AcaSC->Clear();
 		AcaDate->ResetText();
+		AcaTime->ResetText();
 	}
 private: System::Void AssAdd_Click(System::Object^ sender, System::EventArgs^ e) {
 	String^ assignmentName = AssName->Text;
@@ -378,5 +502,6 @@ private: System::Void AssAdd_Click(System::Object^ sender, System::EventArgs^ e)
 	AssStartDate->ResetText();
 	AssEndDate->ResetText();
 }
+
 };
 }
