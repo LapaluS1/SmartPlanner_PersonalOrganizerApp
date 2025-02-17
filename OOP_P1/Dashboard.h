@@ -257,51 +257,28 @@ namespace OOPP1 {
 
 		}
 #pragma endregion
-	/*private: System::Void assignmentDeadlineTimer_Tick(System::Object^ sender, System::EventArgs^ e)
-	{
-		DatabaseHelper^ dbHelper = gcnew DatabaseHelper();
-		DateTime today = DateTime::Now;
-		DateTime alertThreshold = today.AddDays(2); // Alert if deadline is within 2 days
+	
+private: System::Void Dashboard_Load(System::Object^ sender, System::EventArgs^ e) {
+	ShowAssignmentAlerts();
+}
 
-		// Query assignments near the deadline
-		DataTable^ nearDeadlineAssignments = dbHelper->GetAssignmentsNearDeadline(today, alertThreshold);
+private: System::Void ShowAssignmentAlerts() {
+	List<String^>^ assignments = DatabaseHelper::GetUpcomingAssignments();
 
-		// If there are assignments near deadline, show the notification
-		if (nearDeadlineAssignments->Rows->Count > 0)
-		{
-			String^ message = "Upcoming Assignment Deadlines:\n";
-			for each (DataRow ^ row in nearDeadlineAssignments->Rows)
-			{
-				message += row["AssignmentName"]->ToString() + " (End Date: " + row["EndDate"]->ToString() + ")\n";
-			}
-
-			// Set the message and show the notification panel
-			this->notificationLabel->Text = message;
-			this->notificationPanel->Visible = true;
-
-			// Start the fade-out timer
-			this->notificationTimer->Start();
+	if (assignments->Count > 0) {
+		
+		String^ message = "Upcoming Assignment Deadlines (Next 3 Days):\n";
+		for each (String ^ assignment in assignments) {
+			message += assignment + "\n";
 		}
-	}
-	private: System::Void notificationTimer_Tick(System::Object^ sender, System::EventArgs^ e)
-	{
-		// Check if the panel is visible and fade it out
-		if (this->notificationPanel->Visible)
-		{
-			static int fadeCount = 0;
-			fadeCount++;
 
-			if (fadeCount >= 5) // Fade out after 5 ticks (5 seconds)
-			{
-				this->notificationPanel->Visible = false;  // Hide the notification panel
-				fadeCount = 0; // Reset fade count
-				this->notificationTimer->Stop();  // Stop the timer
-			}
-		}
-	}*/
-
-	private: System::Void Dashboard_Load(System::Object^ sender, System::EventArgs^ e) {
+		MessageBox::Show(message, "Assignment Deadline Alert", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 	}
+	else {
+		MessageBox::Show("No assignments are due in the next 3 days.", "Assignment Deadline Alert", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+}
+
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 

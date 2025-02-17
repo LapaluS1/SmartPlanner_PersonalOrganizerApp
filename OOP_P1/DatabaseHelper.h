@@ -607,7 +607,45 @@ public:
 
         return result;
     }
-         
+     
+    // Method to retrieve assignments due within the next 3 days
+    static List<String^>^ GetUpcomingAssignments() {
+        SqlConnection^ connection = gcnew SqlConnection("Data Source=localhost\\sqlexpress;Integrated Security=True");
+        List<String^>^ upcomingAssignments = gcnew List<String^>();
+
+        try {
+            connection->Open();
+            // SQL query to fetch assignments due within the next 3 days
+            String^ query = "SELECT AssignmentName, SubjectCode, EndDate FROM Assignments "
+                "WHERE DATEDIFF(DAY, GETDATE(), EndDate) BETWEEN 0 AND 3 AND Reminder = 1;";
+            SqlCommand^ command = gcnew SqlCommand(query, connection);
+
+            SqlDataReader^ reader = command->ExecuteReader();
+
+            while (reader->Read()) {
+                String^ assignmentDetails = String::Format("{0} ({1}) - Due: {2}",
+                    reader["AssignmentName"],
+                    reader["SubjectCode"],
+                    reader["EndDate"]);
+                upcomingAssignments->Add(assignmentDetails);
+            }
+
+            reader->Close();
+        }
+        catch (SqlException^ sqlEx) {
+            MessageBox::Show("SQL Error: " + sqlEx->Message);
+        }
+        catch (Exception^ ex) {
+            MessageBox::Show("An error occurred: " + ex->Message);
+        }
+        finally {
+            if (connection != nullptr && connection->State == ConnectionState::Open) {
+                connection->Close();
+            }
+        }
+
+        return upcomingAssignments;
+    }
     private:
         // Method to hash a password using SHA256
         static String^ HashPassword(String^ password) {
